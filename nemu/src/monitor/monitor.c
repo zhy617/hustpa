@@ -1,3 +1,4 @@
+#define _GNU_SOURCE
 #include "nemu.h"
 #include "monitor/monitor.h"
 #include <unistd.h>
