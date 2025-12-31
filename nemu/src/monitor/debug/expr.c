@@ -29,6 +29,8 @@ static struct rule {
    * Pay attention to the precedence level of different rules.
    */
 
+  {"0[xX][0-9a-fA-F]+", TK_HEX}, // hexadecimal numbers
+  {"\\$[a-zA-Z][a-zA-Z0-9]*", TK_REG}, // registers
   {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // plus
   {"-", '-'},          // minus
@@ -40,9 +42,7 @@ static struct rule {
   {"!=", TK_NEQ},        // not equal
   {"&&", TK_AND},        // and
   {"\\|\\|", TK_OR},     // or
-  {"0[xX][0-9a-fA-F]+", TK_HEX}, // hexadecimal numbers
   {"[0-9]+", TK_NUM},    // numbers
-  {"\\$[a-zA-Z][a-zA-Z0-9]*", TK_REG}, // registers
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -279,6 +279,16 @@ uint32_t expr(char *e, bool *success) {
 
   /* TODO: Insert codes to evaluate the expression. */
   // TODO();
+
+  for (int i = 0; i < nr_token; i ++) {
+    if (tokens[i].type == '*') {
+      if (i == 0 || (tokens[i - 1].type != TK_NUM && tokens[i - 1].type != TK_HEX && 
+                     tokens[i - 1].type != TK_REG && tokens[i - 1].type != ')')) {
+        tokens[i].type = TK_DEREF;
+      }
+    }
+  }
+
   uint32_t result = eval(0, nr_token - 1, success);
   return result;
 }

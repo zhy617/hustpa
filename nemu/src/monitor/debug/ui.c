@@ -124,6 +124,34 @@ static int cmd_p(char *args) {
   return 0;
 }
 
+static int cmd_w(char *args) {
+  if (args == NULL) {
+    printf("Usage: w EXPR\n");
+    return 0;
+  }
+
+  WP *wp = new_wp();
+  if (wp == NULL) {
+    printf("Failed to create new watchpoint. Pool is full.\n");
+    return 0;
+  }
+
+  strncpy(wp->expr, args, sizeof(wp->expr) - 1);
+  wp->expr[sizeof(wp->expr) - 1] = '\0'; // 确保字符串结束
+
+  bool success = true;
+  wp->last_value = expr(wp->expr, &success);
+
+  if (!success) {
+    printf("Invalid expression: %s\n", wp->expr);
+    free_wp(wp); // 创建失败，归还资源
+    return 0;
+  }
+
+  printf("Watchpoint %d: %s\n", wp->NO, wp->expr);
+  return 0;
+}
+
 static struct {
   char *name;
   char *description;
@@ -136,6 +164,8 @@ static struct {
   { "info", "Display information about registers or watchpoints", cmd_info },
   { "x", "Examine memory: x N EXPR", cmd_x },
   { "p", "Evaluate expression: p EXPR", cmd_p },
+  { "w", "Set a watchpoint", cmd_w },
+  { "d", "Delete a watchpoint", NULL },
 
   /* TODO: Add more commands */
 
