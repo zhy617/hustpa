@@ -40,8 +40,8 @@ static struct rule {
   {"!=", TK_NEQ},        // not equal
   {"&&", TK_AND},        // and
   {"\\|\\|", TK_OR},     // or
-  {"[0-9]+", TK_NUM},    // numbers
   {"0[xX][0-9a-fA-F]+", TK_HEX}, // hexadecimal numbers
+  {"[0-9]+", TK_NUM},    // numbers
   {"\\$[a-zA-Z][a-zA-Z0-9]*", TK_REG}, // registers
 };
 
