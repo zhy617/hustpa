@@ -67,6 +67,43 @@ static int cmd_info(char *args) {
   return 0;
 }
 
+static int cmd_x(char *args) {
+  if (args == NULL) {
+    printf("Usage: x N EXPR\n");
+    return 0;
+  }
+
+  char *arg_n = strtok(args, " ");
+  if (arg_n == NULL) {
+    printf("Usage: x N EXPR\n");
+    return 0;
+  }
+
+  char *arg_expr = arg_n + strlen(arg_n) + 1;
+  if (arg_expr >= args + strlen(args)) {
+    printf("Usage: x N EXPR\n");
+    return 0;
+  }
+
+  int n = atoi(arg_n);
+  
+  bool success = true;
+  vaddr_t start_addr = expr(arg_expr, &success);
+  if (!success) {
+    printf("Invalid expression for address: %s\n", arg_expr);
+    return 0;
+  }
+
+  printf("Memory from 0x%x:\n", start_addr);
+  for (int i = 0; i < n; i++) {
+    vaddr_t current_addr = start_addr + i * 4;
+    // 使用 vaddr_read 读取4字节内存
+    uint32_t data = vaddr_read(current_addr, 4);
+    printf("0x%08x: 0x%08x\n", current_addr, data);
+  }
+
+  return 0;
+}
 
 static int cmd_p(char *args) {
   if (args == NULL) {
@@ -93,7 +130,7 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
   { "si", "Step into N instructions", cmd_si },
   { "info", "Display information about registers or watchpoints", cmd_info },
-  { "x", "Examine memory: x N EXPR", NULL },
+  { "x", "Examine memory: x N EXPR", cmd_x },
   { "p", "Evaluate expression: p EXPR", cmd_p },
 
   /* TODO: Add more commands */
