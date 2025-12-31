@@ -222,6 +222,9 @@ uint32_t eval(int p, int q, bool *success) {
           case '/':
             precedence = 5;
             break;
+          case TK_DEREF:
+            precedence = 6;
+            break;
           default:
             break;
         }
@@ -235,6 +238,15 @@ uint32_t eval(int p, int q, bool *success) {
       *success = false;
       return 0;
     }
+
+    if (tokens[main_op].type == TK_DEREF) {
+      uint32_t addr = eval(main_op + 1, q, success);
+      if (!(*success)) {
+        return 0;
+      }
+      return vaddr_read(addr, 4);
+    }
+
     uint32_t val1 = eval(p, main_op - 1, success);
     if (!(*success)) {
       return 0;
