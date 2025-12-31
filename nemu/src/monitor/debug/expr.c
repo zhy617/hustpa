@@ -299,7 +299,7 @@ uint32_t expr(char *e, bool *success) {
         tokens[i].type = TK_DEREF;
       }
     }
-    printf("token[%d]: type=%d, str=%s\n", i, tokens[i].type, tokens[i].str);
+    // printf("token[%d]: type=%d, str=%s\n", i, tokens[i].type, tokens[i].str);
   }
 
   uint32_t result = eval(0, nr_token - 1, success);
