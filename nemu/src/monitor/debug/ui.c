@@ -84,10 +84,10 @@ static int cmd_x(char *args) {
   
   printf("arg_expr: %s\n", arg_expr);
 
-  if (arg_expr >= args + strlen(args)) {
-    printf("Usage: x N EXPR\n");
-    return 0;
-  }
+  // if (arg_expr >= args + strlen(args)) {
+  //   printf("Usage: x N EXPR\n");
+  //   return 0;
+  // }
 
   int n = atoi(arg_n);
   
