@@ -78,7 +78,8 @@ static int cmd_x(char *args) {
     printf("Usage: x N EXPR\n");
     return 0;
   }
-
+  printf("arg_n: %s\n", arg_n);
+  
   char *arg_expr = arg_n + strlen(arg_n) + 1;
   if (arg_expr >= args + strlen(args)) {
     printf("Usage: x N EXPR\n");
