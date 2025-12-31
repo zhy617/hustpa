@@ -94,7 +94,7 @@ static struct {
   { "si", "Step into N instructions", cmd_si },
   { "info", "Display information about registers or watchpoints", cmd_info },
   { "x", "Examine memory: x N EXPR", NULL },
-  { "p", "Evaluate expression: p EXPR", NULL },
+  { "p", "Evaluate expression: p EXPR", cmd_p },
 
   /* TODO: Add more commands */
 
