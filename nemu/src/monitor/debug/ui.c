@@ -67,6 +67,22 @@ static int cmd_info(char *args) {
   return 0;
 }
 
+
+static int cmd_p(char *args) {
+  if (args == NULL) {
+    printf("Usage: p EXPR\n");
+    return 0;
+  }
+  bool success = true;
+  uint32_t result = expr(args, &success);
+  if (!success) {
+    printf("Invalid expression: %s\n", args);
+    return 0;
+  }
+  printf("%u\n", result);
+  return 0;
+}
+
 static struct {
   char *name;
   char *description;
@@ -77,6 +93,8 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
   { "si", "Step into N instructions", cmd_si },
   { "info", "Display information about registers or watchpoints", cmd_info },
+  { "x", "Examine memory: x N EXPR", NULL },
+  { "p", "Evaluate expression: p EXPR", NULL },
 
   /* TODO: Add more commands */
 
