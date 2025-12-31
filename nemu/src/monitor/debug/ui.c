@@ -2,6 +2,7 @@
 #include "monitor/expr.h"
 #include "monitor/watchpoint.h"
 #include "nemu.h"
+#include "isa/reg.h"
 
 #include <stdlib.h>
 #include <readline/readline.h>
@@ -50,6 +51,22 @@ static int cmd_si(char *args) {
   return 0;
 }
 
+static int cmd_info(char *args) {
+  char *arg = strtok(NULL, " ");
+  if (arg == NULL) {
+    printf("Please specify 'r' for registers or 'w' for watchpoints\n");
+    return 0;
+  }
+  if (strcmp(arg, "r") == 0) {
+    isa_reg_display();
+  } else if (strcmp(arg, "w") == 0) {
+    // wp_display();
+  } else {
+    printf("Unknown info command '%s'\n", arg);
+  }
+  return 0;
+}
+
 static struct {
   char *name;
   char *description;
@@ -59,6 +76,7 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   { "si", "Step into N instructions", cmd_si },
+  { "info", "Display information about registers or watchpoints", cmd_info },
 
   /* TODO: Add more commands */
 

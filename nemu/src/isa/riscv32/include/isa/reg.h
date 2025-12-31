@@ -3,6 +3,9 @@
 
 #include "common.h"
 
+void isa_reg_display();
+uint32_t isa_reg_str2val(const char *s, bool *success);
+
 #define PC_START (0x80000000u + IMAGE_START)
 
 typedef struct {

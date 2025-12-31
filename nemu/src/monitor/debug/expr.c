@@ -5,12 +5,19 @@
  */
 #include <sys/types.h>
 #include <regex.h>
+#include "isa/reg.h"
 
 enum {
-  TK_NOTYPE = 256, TK_EQ
-
+  TK_NOTYPE = 256, 
+  TK_EQ,
   /* TODO: Add more token types */
-
+  TK_NEQ,
+  TK_AND,
+  TK_OR,
+  TK_NUM,
+  TK_HEX,
+  TK_REG,
+  TK_DEREF,
 };
 
 static struct rule {
@@ -24,7 +31,18 @@ static struct rule {
 
   {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // plus
-  {"==", TK_EQ}         // equal
+  {"-", '-'},          // minus
+  {"\\*", '*'},         // multiply
+  {"/", '/'},           // divide
+  {"\\(", '('},         // left parenthesis
+  {"\\)", ')'},         // right parenthesis
+  {"==", TK_EQ},         // equal
+  {"!=", TK_NEQ},        // not equal
+  {"&&", TK_AND},        // and
+  {"\\|\\|", TK_OR},     // or
+  {"[0-9]+", TK_NUM},    // numbers
+  {"0[xX][0-9a-fA-F]+", TK_HEX}, // hexadecimal numbers
+  {"\\$[a-zA-Z][a-zA-Z0-9]*", TK_REG}, // registers
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -78,9 +96,32 @@ static bool make_token(char *e) {
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
+        
+        if (nr_token >= 32) {
+          printf("too many tokens\n");
+          return false;
+        }
 
         switch (rules[i].token_type) {
-          default: TODO();
+          case TK_NOTYPE:
+            break;
+          case TK_NUM:
+          case TK_HEX:
+          case TK_REG:
+            tokens[nr_token].type = rules[i].token_type;
+            strncpy(tokens[nr_token].str, substr_start, substr_len);
+            tokens[nr_token].str[substr_len] = '\0';
+            nr_token++;
+            break;
+          case TK_EQ:
+          case TK_NEQ:
+          case TK_AND:
+          case TK_OR:
+          default:
+            tokens[nr_token].type = rules[i].token_type;
+            nr_token++;
+            break;
+          // default: TODO();
         }
 
         break;
@@ -96,6 +137,140 @@ static bool make_token(char *e) {
   return true;
 }
 
+static bool check_parentheses(int p, int q, bool *success) {
+  if (tokens[p].type != '(' || tokens[q].type != ')') {
+    return false;
+  }
+  int cnt = 0;
+  for (int i = p + 1; i < q; i++) {
+    if (tokens[i].type == '(') {
+      cnt++;
+    } else if (tokens[i].type == ')') {
+      if (cnt == 0) {
+        return false;
+      }
+      cnt--;
+    }
+  }
+  if (cnt != 0) {
+    *success = false;
+    return false;
+  }
+  return true;
+}
+
+uint32_t eval(int p, int q, bool *success) {
+  // TODO();
+  if (p > q) {
+    *success = false;
+    return 0;
+  } else if (p == q) {
+    // single token
+    uint32_t val = 0;
+    switch (tokens[p].type) {
+      case TK_NUM:
+        sscanf(tokens[p].str, "%d", &val);
+        return val;
+      case TK_HEX:
+        sscanf(tokens[p].str, "%x", &val);
+        return val;
+      case TK_REG: {
+        bool reg_success = true;
+        val = isa_reg_str2val(tokens[p].str + 1, &reg_success);
+        if (!reg_success) {
+          *success = false;
+          return 0;
+        }
+        return val;
+      }
+      default:
+        *success = false;
+        return 0;
+    }
+  } else if (check_parentheses(p, q, success) == true) {
+    // expression surrounded by a matched pair of parentheses
+    return eval(p + 1, q - 1, success);
+  } else {
+    // TODO();
+    // find main operator
+    int main_op = -1;
+    int min_precedence = 100;
+    int cnt = 0;
+    for (int i = p; i <= q; i++) {
+      if (tokens[i].type == '(') {
+        cnt++;
+      } else if (tokens[i].type == ')') {
+        cnt--;
+      } else if (cnt == 0) {
+        int precedence = 100;
+        switch (tokens[i].type) {
+          case TK_OR:
+            precedence = 1;
+            break;
+          case TK_AND:
+            precedence = 2;
+            break;
+          case TK_EQ:
+          case TK_NEQ:
+            precedence = 3;
+            break;
+          case '+':
+          case '-':
+            precedence = 4;
+            break;
+          case '*':
+          case '/':
+            precedence = 5;
+            break;
+          default:
+            break;
+        }
+        if (precedence <= min_precedence) {
+          min_precedence = precedence;
+          main_op = i;
+        }
+      }
+    }
+    if (main_op == -1) {
+      *success = false;
+      return 0;
+    }
+    uint32_t val1 = eval(p, main_op - 1, success);
+    if (!(*success)) {
+      return 0;
+    }
+    uint32_t val2 = eval(main_op + 1, q, success);
+    if (!(*success)) {
+      return 0;
+    }
+    switch (tokens[main_op].type) {
+      case TK_OR:
+        return val1 || val2;
+      case TK_AND:
+        return val1 && val2;
+      case TK_EQ:
+        return val1 == val2;
+      case TK_NEQ:
+        return val1 != val2;
+      case '+':
+        return val1 + val2;
+      case '-':
+        return val1 - val2;
+      case '*':
+        return val1 * val2;
+      case '/':
+        if (val2 == 0) {
+          *success = false;
+          return 0;
+        }
+        return val1 / val2;
+      default:
+        *success = false;
+    }
+  }
+  return 0;
+}
+
 uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
@@ -103,7 +278,7 @@ uint32_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  TODO();
-
-  return 0;
+  // TODO();
+  uint32_t result = eval(0, nr_token - 1, success);
+  return result;
 }
