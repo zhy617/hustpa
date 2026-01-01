@@ -9,6 +9,7 @@
 #include <readline/history.h>
 
 void cpu_exec(uint64_t);
+void free_wp_by_no(int no);
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -152,6 +153,17 @@ static int cmd_w(char *args) {
   return 0;
 }
 
+static int cmd_d(char *args) {
+  if (args == NULL) {
+    printf("Usage: d N\n");
+    return 0;
+  }
+  int no = atoi(args);
+  free_wp_by_no(no);
+  printf("Watchpoint %d deleted\n", no);
+  return 0;
+}
+
 static struct {
   char *name;
   char *description;
@@ -165,7 +177,7 @@ static struct {
   { "x", "Examine memory: x N EXPR", cmd_x },
   { "p", "Evaluate expression: p EXPR", cmd_p },
   { "w", "Set a watchpoint", cmd_w },
-  { "d", "Delete a watchpoint", NULL },
+  { "d", "Delete a watchpoint", cmd_d },
 
   /* TODO: Add more commands */
 
