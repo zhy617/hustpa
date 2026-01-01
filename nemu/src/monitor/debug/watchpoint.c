@@ -106,7 +106,7 @@ void display_wp() {
   printf("Num\tType\t\tWhat\n");
   WP *p = head;
   while (p) {
-    printf("%d\twatchpoint\t%s\n", p->NO, p->expr);
+    printf("%d\twatchpoint\t%s\t%u\n", p->NO, p->expr, p->last_value);
     p = p->next;
   }
 }
