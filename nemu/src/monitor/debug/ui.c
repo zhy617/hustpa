@@ -161,7 +161,7 @@ static int cmd_d(char *args) {
   }
   int no = atoi(args);
   free_wp_by_no(no);
-  printf("Watchpoint %d deleted\n", no);
+  // printf("Watchpoint %d deleted\n", no);
   return 0;
 }
 
