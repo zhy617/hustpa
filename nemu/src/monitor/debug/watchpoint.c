@@ -91,10 +91,10 @@ void display_wp() {
     printf("No watchpoints.\n");
     return;
   }
-  printf("Num\tType\t\t\tDec\tHex\tWhat\n");
+  printf("Num\tType\t\tDec\tHex\tWhat\n");
   WP *p = head;
   while (p) {
-    printf("%d\twatchpoint\t\t%u\t0x%x\t%s\n", p->NO, p->last_value, p->last_value, p->expr);
+    printf("%d\twatchpoint\t%u\t0x%x\t%s\n", p->NO, p->last_value, p->last_value, p->expr);
     p = p->next;
   }
 }
