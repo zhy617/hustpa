@@ -10,6 +10,7 @@
 
 void cpu_exec(uint64_t);
 void free_wp_by_no(int no);
+void display_wp();
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -61,7 +62,7 @@ static int cmd_info(char *args) {
   if (strcmp(arg, "r") == 0) {
     isa_reg_display();
   } else if (strcmp(arg, "w") == 0) {
-    // wp_display();
+    display_wp();
   } else {
     printf("Unknown info command '%s'\n", arg);
   }
