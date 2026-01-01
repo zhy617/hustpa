@@ -2,12 +2,15 @@
 #include "monitor/expr.h"
 #include "monitor/watchpoint.h"
 #include "nemu.h"
+#include "isa/reg.h"
 
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
 void cpu_exec(uint64_t);
+void free_wp_by_no(int no);
+void display_wp();
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -38,6 +41,130 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
+static int cmd_si(char *args) {
+  char *arg = strtok(NULL, " ");
+  int n;
+  if (arg == NULL) {
+    n = 1;
+  } else {
+    n = atoi(arg);
+  }
+  cpu_exec(n);
+  return 0;
+}
+
+static int cmd_info(char *args) {
+  char *arg = strtok(NULL, " ");
+  if (arg == NULL) {
+    printf("Please specify 'r' for registers or 'w' for watchpoints\n");
+    return 0;
+  }
+  if (strcmp(arg, "r") == 0) {
+    isa_reg_display();
+  } else if (strcmp(arg, "w") == 0) {
+    display_wp();
+  } else {
+    printf("Unknown info command '%s'\n", arg);
+  }
+  return 0;
+}
+
+static int cmd_x(char *args) {
+  if (args == NULL) {
+    printf("Usage: x N EXPR\n");
+    return 0;
+  }
+
+  char *arg_n = strtok(args, " ");
+  if (arg_n == NULL) {
+    printf("Usage: x N EXPR\n");
+    return 0;
+  }
+  printf("arg_n: %s\n", arg_n);
+
+  char *arg_expr = arg_n + strlen(arg_n) + 1;
+  
+  printf("arg_expr: %s\n", arg_expr);
+
+  // if (arg_expr >= args + strlen(args)) {
+  //   printf("Usage: x N EXPR\n");
+  //   return 0;
+  // }
+
+  int n = atoi(arg_n);
+  
+  bool success = true;
+  vaddr_t start_addr = expr(arg_expr, &success);
+  if (!success) {
+    printf("Invalid expression for address: %s\n", arg_expr);
+    return 0;
+  }
+
+  printf("Memory from 0x%x:\n", start_addr);
+  for (int i = 0; i < n; i++) {
+    vaddr_t current_addr = start_addr + i * 4;
+    // 使用 vaddr_read 读取4字节内存
+    uint32_t data = vaddr_read(current_addr, 4);
+    printf("0x%08x: 0x%08x %u %c\n", current_addr, data, data, data);
+  }
+
+  return 0;
+}
+
+static int cmd_p(char *args) {
+  if (args == NULL) {
+    printf("Usage: p EXPR\n");
+    return 0;
+  }
+  bool success = true;
+  uint32_t result = expr(args, &success);
+  if (!success) {
+    printf("Invalid expression: %s\n", args);
+    return 0;
+  }
+  printf("%u (0x%x)\n", result, result);
+  return 0;
+}
+
+static int cmd_w(char *args) {
+  if (args == NULL) {
+    printf("Usage: w EXPR\n");
+    return 0;
+  }
+
+  WP *wp = new_wp();
+  if (wp == NULL) {
+    printf("Failed to create new watchpoint. Pool is full.\n");
+    return 0;
+  }
+
+  strncpy(wp->expr, args, sizeof(wp->expr) - 1);
+  wp->expr[sizeof(wp->expr) - 1] = '\0'; // 确保字符串结束
+
+  bool success = true;
+  wp->last_value = expr(wp->expr, &success);
+
+  if (!success) {
+    printf("Invalid expression: %s\n", wp->expr);
+    free_wp(wp); // 创建失败，归还资源
+    return 0;
+  }
+
+  printf("Watchpoint %d: %s\n", wp->NO, wp->expr);
+  return 0;
+}
+
+static int cmd_d(char *args) {
+  if (args == NULL) {
+    printf("Usage: d N\n");
+    return 0;
+  }
+  int no = atoi(args);
+  free_wp_by_no(no);
+  // printf("Watchpoint %d deleted\n", no);
+  return 0;
+}
+
 static struct {
   char *name;
   char *description;
@@ -46,6 +173,12 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
+  { "si", "Step into N instructions", cmd_si },
+  { "info", "Display information about registers or watchpoints", cmd_info },
+  { "x", "Examine memory: x N EXPR", cmd_x },
+  { "p", "Evaluate expression: p EXPR", cmd_p },
+  { "w", "Set a watchpoint", cmd_w },
+  { "d", "Delete a watchpoint", cmd_d },
 
   /* TODO: Add more commands */
 
