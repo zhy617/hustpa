@@ -228,7 +228,7 @@ uint32_t eval(int p, int q, bool *success) {
           default:
             break;
         }
-        if (precedence <= min_precedence) {
+        if (precedence < min_precedence || (precedence == min_precedence && tokens[i].type != TK_DEREF)) {
           min_precedence = precedence;
           main_op = i;
         }
