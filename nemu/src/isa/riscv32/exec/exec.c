@@ -42,8 +42,8 @@ static OpcodeEntry opcode_table [32] = {
   /* b01100 */ EMPTY,             IDEX(U, lui),       EMPTY,            EMPTY,
   /* b10000 */ EMPTY,             EMPTY,              EMPTY,            EMPTY,
   /* b10100 */ EMPTY,             EMPTY,              EMPTY,            EMPTY,
-  /* b11000 */ EMPTY,             IDEX(I, jalr),      EMPTY,            IDEX(J, jal),
-  /* b11100 */ EMPTY,             EMPTY,              EX(nemu_trap),    EMPTY,
+  /* b11000 */ EMPTY,             IDEX(I, jalr),      EX(nemu_trap),    IDEX(J, jal),
+  /* b11100 */ EMPTY,             EMPTY,              EMPTY,    EMPTY,
 };
 
 void isa_exec(vaddr_t *pc) {
