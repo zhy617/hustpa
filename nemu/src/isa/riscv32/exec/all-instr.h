@@ -13,6 +13,8 @@ make_EHelper(sub);
 make_EHelper(srli);
 make_EHelper(srai);
 make_EHelper(andi);
+make_EHelper(srl);
+make_EHelper(sra);
 
 // control instructions
 make_EHelper(jalr);

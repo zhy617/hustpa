@@ -63,13 +63,24 @@ static make_EHelper(op_r_0) {
   idex(pc, &op_r_0_table[funct7_bit5]);
 }
 
+static OpcodeEntry op_r_5_table [2] = {
+  /* b0000000 */ EX(srl),
+  /* b0100000 */ EX(sra),
+};
+
+static make_EHelper(op_r_5) {
+  // We only care about bit 5 of funct7 to distinguish srl/sra
+  uint32_t funct7_bit5 = (decinfo.isa.instr.funct7 >> 5) & 1;
+  idex(pc, &op_r_5_table[funct7_bit5]);
+}
+
 static OpcodeEntry op_r_table [8] = {
   /* b000 */ EX(op_r_0),
   /* b001 */ EMPTY,
   /* b010 */ EMPTY,
   /* b011 */ EX(sltu),
   /* b100 */ EX(xor),
-  /* b101 */ EMPTY,
+  /* b101 */ EX(op_r_5),
   /* b110 */ EX(or),
   /* b111 */ EMPTY,
 };
