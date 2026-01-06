@@ -34,11 +34,6 @@ static make_EHelper(op_imm) {
   idex(pc, &op_imm_table[decinfo.isa.instr.funct3]);
 }
 
-static OpcodeEntry auipc_table [1] = {
-  EX(auipc),
-};
-
-
 static OpcodeEntry opcode_table [32] = {
   /* b00000 */ IDEX(ld, load),    EMPTY,              EMPTY,            EMPTY,
   /* b00100 */ IDEX(I, op_imm),   IDEX(U, auipc),     EMPTY,            EMPTY,
