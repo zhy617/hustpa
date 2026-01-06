@@ -1,7 +1,7 @@
 #include "cpu/exec.h"
 
 make_EHelper(lui) {
-  printf("fuck you\n");
+  // printf("fuck you\n");
   rtl_sr(id_dest->reg, &id_src->val, 4);
 
   print_asm_template2(lui);
