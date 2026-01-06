@@ -74,9 +74,14 @@ static make_EHelper(op_r_5) {
   idex(pc, &op_r_5_table[funct7_bit5]);
 }
 
+// static OpcodeEntry op_r_1_table [2] = {
+//   /* b0000000 */ EX(sll),
+//   /* b0100000 */ EMPTY,
+// };
+
 static OpcodeEntry op_r_table [8] = {
   /* b000 */ EX(op_r_0),
-  /* b001 */ EMPTY,
+  /* b001 */ EX(sll),
   /* b010 */ EMPTY,
   /* b011 */ EX(sltu),
   /* b100 */ EX(xor),

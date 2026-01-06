@@ -111,3 +111,11 @@ make_EHelper(sra) {
   rtl_sr(id_dest->reg, &s0, 4);
   print_asm_template3(sra);
 }
+
+make_EHelper(sll) {
+  rtl_andi(&t0, &id_src2->val, 0x1f); //todo shamt[5]
+  rtl_shl(&s0, &id_src->val, &t0);
+
+  rtl_sr(id_dest->reg, &s0, 4);
+  print_asm_template3(sll);
+}
