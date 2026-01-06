@@ -31,7 +31,7 @@ static OpcodeEntry op_imm_table [8] = {
 };
 
 static make_EHelper(op_imm) {
-  printf("op_imm funct3 = %d\n", decinfo.isa.instr.funct3);
+  // printf("op_imm funct3 = %d\n", decinfo.isa.instr.funct3);
   idex(pc, &op_imm_table[decinfo.isa.instr.funct3]);
 }
 
