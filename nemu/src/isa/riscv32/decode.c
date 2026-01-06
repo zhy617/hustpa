@@ -63,10 +63,10 @@ make_DHelper(I) {
 make_DHelper(J) {
   // 拼接J-Type的20位立即数
   uint32_t imm20 = (decinfo.isa.instr.simm20 << 20) | (decinfo.isa.instr.imm19_12 << 12) | (decinfo.isa.instr.imm11_ << 11) | (decinfo.isa.instr.imm10_1 << 1);
-  printf("simm20 before sign extend: 0x%08x\n", decinfo.isa.instr.simm20);
-  printf("imm19_12 before sign extend: 0x%08x\n", decinfo.isa.instr.imm19_12);
-  printf("imm11 before sign extend: 0x%08x\n", decinfo.isa.instr.imm11_);
-  printf("imm10_1 before sign extend: 0x%08x\n", decinfo.isa.instr.imm10_1);
+  // printf("simm20 before sign extend: 0x%08x\n", decinfo.isa.instr.simm20);
+  // printf("imm19_12 before sign extend: 0x%08x\n", decinfo.isa.instr.imm19_12);
+  // printf("imm11 before sign extend: 0x%08x\n", decinfo.isa.instr.imm11_);
+  // printf("imm10_1 before sign extend: 0x%08x\n", decinfo.isa.instr.imm10_1);
 
   // 符号扩展
   int32_t simm = imm20;
