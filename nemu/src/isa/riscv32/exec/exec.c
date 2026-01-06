@@ -23,7 +23,7 @@ static OpcodeEntry op_imm_table [8] = {
   /* b000 */ EX(addi),
   /* b001 */ EMPTY,
   /* b010 */ EMPTY,
-  /* b011 */ EMPTY,
+  /* b011 */ EX(sltiu),
   /* b100 */ EMPTY,
   /* b101 */ EMPTY,
   /* b110 */ EMPTY,
