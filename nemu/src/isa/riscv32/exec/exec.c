@@ -31,7 +31,7 @@ static OpcodeEntry op_imm_table [8] = {
 };
 
 static make_EHelper(op_imm) {
-  printf("op_imm funct3 = %d\n", decinfo.isa.instr.funct3);
+  // printf("op_imm funct3 = %d\n", decinfo.isa.instr.funct3);
   idex(pc, &op_imm_table[decinfo.isa.instr.funct3]);
 }
 
@@ -48,8 +48,8 @@ static OpcodeEntry opcode_table [32] = {
 
 void isa_exec(vaddr_t *pc) {
   decinfo.isa.instr.val = instr_fetch(pc, 4);
-  printf("0x%08x: 0x%08x fuck \n", *pc - 4, decinfo.isa.instr.val);
+  // printf("0x%08x: 0x%08x fuck \n", *pc - 4, decinfo.isa.instr.val);
   assert(decinfo.isa.instr.opcode1_0 == 0x3);
-  printf("opcode6_2: %d\n", decinfo.isa.instr.opcode6_2);
+  // printf("opcode6_2: %d\n", decinfo.isa.instr.opcode6_2);
   idex(pc, &opcode_table[decinfo.isa.instr.opcode6_2]);
 }
