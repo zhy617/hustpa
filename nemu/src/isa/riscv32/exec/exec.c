@@ -19,6 +19,21 @@ static make_EHelper(store) {
   idex(pc, &store_table[decinfo.isa.instr.funct3]);
 }
 
+// Level 3 table for op-imm, funct3 = 0b101
+static OpcodeEntry op_imm_5_table [2] = {
+  /* b0000000 */ EX(srli),
+  /* b0100000 */ EX(srai),
+};
+
+// Level 3 dispatcher for op-imm, funct3 = 0b101
+static make_EHelper(op_imm_5) {
+  // The repurposed funct7 is in imm[11:5]
+  uint32_t funct7 = decinfo.isa.instr.funct7;
+  // We only care about bit 5 of this pseudo-funct7
+  uint32_t funct7_bit5 = (funct7 >> 5) & 1;
+  idex(pc, &op_imm_5_table[funct7_bit5]);
+}
+
 static OpcodeEntry op_imm_table [8] = {
   /* b000 */ EX(addi),
   /* b001 */ EMPTY,

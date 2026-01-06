@@ -71,3 +71,19 @@ make_EHelper(sub) {
 
   print_asm_template3(sub);
 }
+
+make_EHelper(srai) {
+  rtl_andi(&t0, &id_src2->val, 0x1f); //todo shamt[5]
+  rtl_sari(&s0, &id_src->val, t0);
+
+  rtl_sr(id_dest->reg, &s0, 4);
+  print_asm_template3(srai);
+}
+
+make_EHelper(srli) {
+  rtl_andi(&t0, &id_src2->val, 0x1f); //todo shamt[5]
+  rtl_shri(&s0, &id_src->val, t0);
+
+  rtl_sr(id_dest->reg, &s0, 4);
+  print_asm_template3(srli);
+}
