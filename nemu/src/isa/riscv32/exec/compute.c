@@ -16,6 +16,13 @@ make_EHelper(addi) {
   print_asm_template3(addi);
 }
 
+make_EHelper(add) {
+  rtl_add(&s0, &id_src->val, &id_src2->val);
+  rtl_sr(id_dest->reg, &s0, 4);
+
+  print_asm_template3(add);
+}
+
 make_EHelper(auipc) {
   // result = pc + imm
   rtl_addi(&s0, &decinfo.seq_pc, id_src->imm);

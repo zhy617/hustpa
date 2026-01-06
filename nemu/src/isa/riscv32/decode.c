@@ -76,3 +76,8 @@ make_DHelper(J) {
   print_Dop(id_src->str, OP_STR_SIZE, "%d", id_src->imm);
 }
 
+make_DHelper(R) {
+  decode_op_r(id_src, decinfo.isa.instr.rs1, true);
+  decode_op_r(id_src2, decinfo.isa.instr.rs2, true);
+  decode_op_r(id_dest, decinfo.isa.instr.rd, false);
+}
