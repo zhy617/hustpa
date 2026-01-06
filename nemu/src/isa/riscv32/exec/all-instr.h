@@ -18,13 +18,10 @@ make_EHelper(sra);
 make_EHelper(sll);
 make_EHelper(xori);
 make_EHelper(and);
-make_EHelper(mul);
-make_EHelper(div);
 make_EHelper(slt);
 make_EHelper(rem);
 make_EHelper(slli);
-make_EHelper(mulhu);
-make_EHelper(mulh);
+
 
 // control instructions
 make_EHelper(jalr);
@@ -38,6 +35,12 @@ make_EHelper(blt);
 make_EHelper(ld);
 make_EHelper(st);
 make_EHelper(ldi);
+
+// muldiv instructions
+make_EHelper(mul);
+make_EHelper(div);
+make_EHelper(mulhu);
+make_EHelper(mulh);
 
 make_EHelper(inv);
 make_EHelper(nemu_trap);
