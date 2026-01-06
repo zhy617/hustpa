@@ -87,7 +87,7 @@ static OpcodeEntry op_r_table [8] = {
   /* b100 */ EX(xor),
   /* b101 */ EX(op_r_5),
   /* b110 */ EX(or),
-  /* b111 */ EMPTY,
+  /* b111 */ EX(and),
 };
 
 static make_EHelper(op_r) {

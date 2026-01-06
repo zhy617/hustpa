@@ -127,3 +127,11 @@ make_EHelper(xori) {
 
   print_asm_template3(xori);
 }
+
+make_EHelper(and) {
+  rtl_and(&s0, &id_src->val, &id_src2->val);
+
+  rtl_sr(id_dest->reg, &s0, 4);
+
+  print_asm_template3(and);
+}
