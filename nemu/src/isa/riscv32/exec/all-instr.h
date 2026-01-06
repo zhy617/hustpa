@@ -22,6 +22,7 @@ make_EHelper(mul);
 make_EHelper(div);
 make_EHelper(slt);
 make_EHelper(rem);
+make_EHelper(slli);
 
 // control instructions
 make_EHelper(jalr);
