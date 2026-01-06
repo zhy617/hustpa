@@ -98,6 +98,20 @@ static make_EHelper(op_r_4) {
   }
 }
 
+static OpcodeEntry op_r_6_table [2] = {
+  /* b0000000 */ EX(or),
+  /* b0000001 */ EX(rem), // Added mul
+};
+
+static make_EHelper(op_r_6) {
+  // We only care about bit 0 of funct7 to distinguish or/rem
+  switch (decinfo.isa.instr.funct7) {
+    case 0b0000000: idex(pc, &op_r_6_table[0]); break;
+    case 0b0000001: idex(pc, &op_r_6_table[1]); break; // Added rem case
+    default: exec_inv(pc); break; // Handle unknown funct7
+  }
+}
+
 static OpcodeEntry op_r_table [8] = {
   /* b000 */ EX(op_r_0),
   /* b001 */ EX(sll),
@@ -105,7 +119,7 @@ static OpcodeEntry op_r_table [8] = {
   /* b011 */ EX(sltu),
   /* b100 */ EX(op_r_4),
   /* b101 */ EX(op_r_5),
-  /* b110 */ EX(or),
+  /* b110 */ EX(op_r_6),
   /* b111 */ EX(and),
 };
 

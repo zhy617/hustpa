@@ -159,3 +159,11 @@ make_EHelper(slt) {
 
   print_asm_template3(slt);
 }
+
+make_EHelper(rem) {
+  rtl_idiv_r(&s0, &id_src->val, &id_src2->val);
+
+  rtl_sr(id_dest->reg, &s0, 4);
+
+  print_asm_template3(rem);
+}
