@@ -11,7 +11,7 @@ uint32_t expr(char *e, bool *success);
 int main(int argc, char *argv[]) {
   /* Initialize the monitor. */
   int is_batch_mode = init_monitor(argc, argv);
-  printf("%d\n", is_batch_mode);
+  // printf("%d\n", is_batch_mode);
   if (is_batch_mode) {  
     FILE *fp = fopen("/home/mystle/ics2019/nemu/tools/gen-expr/input", "r");
     if (fp == NULL) {
