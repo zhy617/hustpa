@@ -13,6 +13,7 @@ make_EHelper(sltiu);
 // control instructions
 make_EHelper(jalr);
 make_EHelper(jal);
+make_EHelper(beq);
 
 // load and store instructions
 make_EHelper(ld);

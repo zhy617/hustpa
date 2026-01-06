@@ -51,6 +51,22 @@ static make_EHelper(op_r) {
   idex(pc, &op_r_table[decinfo.isa.instr.funct3]);
 }
 
+static OpcodeEntry op_b_table [8] = {
+  /* b000 */ EX(beq),
+  /* b001 */ EMPTY,
+  /* b010 */ EMPTY,
+  /* b011 */ EMPTY,
+  /* b100 */ EMPTY,
+  /* b101 */ EMPTY,
+  /* b110 */ EMPTY,
+  /* b111 */ EMPTY,
+};
+
+static make_EHelper(op_b) {
+  // printf("op_b funct3 = %d\n", decinfo.isa.instr.funct3);
+  idex(pc, &op_b_table[decinfo.isa.instr.funct3]);
+}
+
 static OpcodeEntry opcode_table [32] = {
   /* b00000 */ IDEX(ld, load),    EMPTY,              EMPTY,            EMPTY,
   /* b00100 */ IDEX(I, op_imm),   IDEX(U, auipc),     EMPTY,            EMPTY,
@@ -58,7 +74,7 @@ static OpcodeEntry opcode_table [32] = {
   /* b01100 */ IDEX(R, op_r),     IDEX(U, lui),       EMPTY,            EMPTY,
   /* b10000 */ EMPTY,             EMPTY,              EMPTY,            EMPTY,
   /* b10100 */ EMPTY,             EMPTY,              EMPTY,            EMPTY,
-  /* b11000 */ EMPTY,             IDEX(I, jalr),      EX(nemu_trap),    IDEX(J, jal),
+  /* b11000 */ IDEX(B, op_b),     IDEX(I, jalr),      EX(nemu_trap),    IDEX(J, jal),
   /* b11100 */ EMPTY,             EMPTY,              EMPTY,    EMPTY,
 };
 
