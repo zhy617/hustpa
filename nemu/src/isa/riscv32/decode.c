@@ -67,5 +67,7 @@ make_DHelper(J) {
   int32_t simm = imm20;
   decode_op_i(id_src, simm, true);
   decode_op_r(id_dest, decinfo.isa.instr.rd, false);
+  printf("imm: 0x%08x\n", simm);
+  print_Dop(id_src->str, OP_STR_SIZE, "%d", id_src->imm);
 }
 
