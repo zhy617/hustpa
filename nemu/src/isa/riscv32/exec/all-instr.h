@@ -24,6 +24,7 @@ make_EHelper(jalr);
 make_EHelper(jal);
 make_EHelper(beq);
 make_EHelper(bne);
+make_EHelper(bge);
 
 // load and store instructions
 make_EHelper(ld);

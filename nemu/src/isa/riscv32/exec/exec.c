@@ -101,7 +101,7 @@ static OpcodeEntry op_b_table [8] = {
   /* b010 */ EMPTY,
   /* b011 */ EMPTY,
   /* b100 */ EMPTY,
-  /* b101 */ EMPTY,
+  /* b101 */ EX(bge),
   /* b110 */ EMPTY,
   /* b111 */ EMPTY,
 };
