@@ -137,7 +137,7 @@ make_EHelper(and) {
 }
 
 make_EHelper(mul) {
-  rtl_mul_lo(&s0, &id_src->val, &id_src2->val);
+  rtl_imul_lo(&s0, &id_src->val, &id_src2->val);
 
   rtl_sr(id_dest->reg, &s0, 4);
 
@@ -174,4 +174,12 @@ make_EHelper(slli) {
 
   rtl_sr(id_dest->reg, &s0, 4);
   print_asm_template3(slli);
+}
+
+make_EHelper(mulhu) {
+  rtl_mul_hi(&s0, &id_src->val, &id_src2->val);
+
+  rtl_sr(id_dest->reg, &s0, 4);
+
+  print_asm_template3(mulhu);
 }
