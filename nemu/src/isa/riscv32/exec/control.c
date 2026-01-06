@@ -65,3 +65,15 @@ make_EHelper(bge) {
 
   print_asm_template3(bge);
 }
+
+make_EHelper(blt) {
+  if ((int32_t)id_src->val < (int32_t)id_src2->val) {
+    // pc = pc + imm - 4
+    rtl_add(&t0, &decinfo.seq_pc, &id_dest->val);
+    rtl_subi(&t0, &t0, 4);
+    // printf("t0 = 0x%08x\n", t0);
+    rtl_j(t0);
+  }
+
+  print_asm_template3(blt);
+}
