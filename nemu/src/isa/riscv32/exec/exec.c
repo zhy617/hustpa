@@ -39,7 +39,7 @@ static OpcodeEntry op_imm_table [8] = {
   /* b001 */ EMPTY,
   /* b010 */ EMPTY,
   /* b011 */ EX(sltiu),
-  /* b100 */ EMPTY,
+  /* b100 */ EX(xori),
   /* b101 */ EX(op_imm_5),
   /* b110 */ EMPTY,
   /* b111 */ EX(andi),

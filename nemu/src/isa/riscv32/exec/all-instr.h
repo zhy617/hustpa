@@ -16,6 +16,7 @@ make_EHelper(andi);
 make_EHelper(srl);
 make_EHelper(sra);
 make_EHelper(sll);
+make_EHelper(xori);
 
 // control instructions
 make_EHelper(jalr);
