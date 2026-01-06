@@ -151,3 +151,11 @@ make_EHelper(div) {
 
   print_asm_template3(div);
 }
+
+make_EHelper(slt) {
+  rtl_setrelop(RELOP_LT, &s0, &id_src->val, &id_src2->val);
+
+  rtl_sr(id_dest->reg, &s0, 4);
+
+  print_asm_template3(slt);
+}
