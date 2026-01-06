@@ -6,6 +6,7 @@ make_EHelper(addi);
 make_EHelper(auipc);
 make_EHelper(add);
 make_EHelper(sltu);
+make_EHelper(xor);
 
 // control instructions
 make_EHelper(jalr);

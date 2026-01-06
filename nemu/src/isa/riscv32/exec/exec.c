@@ -40,7 +40,7 @@ static OpcodeEntry op_r_table [8] = {
   /* b001 */ EMPTY,
   /* b010 */ EMPTY,
   /* b011 */ EX(sltu),
-  /* b100 */ EMPTY,
+  /* b100 */ EX(xor),
   /* b101 */ EMPTY,
   /* b110 */ EMPTY,
   /* b111 */ EMPTY,
