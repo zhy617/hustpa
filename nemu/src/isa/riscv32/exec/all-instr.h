@@ -34,6 +34,7 @@ make_EHelper(blt);
 // load and store instructions
 make_EHelper(ld);
 make_EHelper(st);
+make_EHelper(ldi);
 
 make_EHelper(inv);
 make_EHelper(nemu_trap);
