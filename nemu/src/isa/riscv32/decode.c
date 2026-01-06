@@ -51,3 +51,21 @@ make_DHelper(st) {
 
   decode_op_r(id_dest, decinfo.isa.instr.rs2, true);
 }
+
+make_DHelper(I) {
+  decode_op_r(id_src, decinfo.isa.instr.rs1, true);
+  decode_op_i(id_src2, decinfo.isa.instr.simm11_0, true);
+  decode_op_r(id_dest, decinfo.isa.instr.rd, false);
+
+  print_Dop(id_src2->str, OP_STR_SIZE, "%d(%s)", id_src2->imm, reg_name(id_src->reg, 4));
+}
+
+make_DHelper(J) {
+  // 拼接J-Type的20位立即数
+  uint32_t imm20 = (decinfo.isa.instr.simm20 << 20) | (decinfo.isa.instr.imm19_12 << 12) | (decinfo.isa.instr.imm11 << 11) | (decinfo.isa.instr.imm10_1 << 1);
+  // 符号扩展
+  int32_t simm = imm20;
+  decode_op_i(id_src, simm, true);
+  decode_op_r(id_dest, decinfo.isa.instr.rd, false);
+}
+

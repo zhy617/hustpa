@@ -1,1 +1,29 @@
 #include "cpu/exec.h"
+
+make_EHelper(jalr) {
+  // 1. Calculate target address: t0 = rs1 + imm
+  rtl_add(&t0, &id_src->val, &id_src2->val);
+  // Align to 2 bytes by clearing the LSB: t0 = t0 & ~1
+  rtl_andi(&t0, &t0, ~1);
+
+  // 2. Save link address: rd = pc + 4
+  // decinfo.seq_pc is pc + 4
+  rtl_sr(id_dest->reg, &decinfo.seq_pc, 4);
+
+  // 3. Perform the jump
+  rtl_j(t0);
+
+  print_asm_template2(jalr);
+}
+
+make_EHelper(jal) {
+  // 1. Save link address: rd = pc + 4
+  // decinfo.seq_pc is pc + 4
+  rtl_sr(id_dest->reg, &decinfo.seq_pc, 4);
+
+  // 2. pc = pc + imm
+  rtl_add(&t0, &decinfo.seq_pc, &id_src->val);
+  rtl_j(t0);
+
+  print_asm_template2(jal);
+}
