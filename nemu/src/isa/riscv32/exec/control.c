@@ -21,8 +21,9 @@ make_EHelper(jal) {
   // decinfo.seq_pc is pc + 4
   rtl_sr(id_dest->reg, &decinfo.seq_pc, 4);
 
-  // 2. pc = pc + imm
+  // 2. pc = pc + imm - 4
   rtl_add(&t0, &decinfo.seq_pc, &id_src->val);
+  rtl_subi(&t0, &t0, 4);
   printf("t0 = 0x%08x\n", t0);
   rtl_j(t0);
 
