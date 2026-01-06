@@ -42,7 +42,7 @@ static OpcodeEntry op_r_table [8] = {
   /* b011 */ EX(sltu),
   /* b100 */ EX(xor),
   /* b101 */ EMPTY,
-  /* b110 */ EMPTY,
+  /* b110 */ EX(or),
   /* b111 */ EMPTY,
 };
 
