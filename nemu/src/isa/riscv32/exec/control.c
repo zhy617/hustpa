@@ -38,6 +38,18 @@ make_EHelper(beq) {
     // printf("t0 = 0x%08x\n", t0);
     rtl_j(t0);
   }
-  
+
   print_asm_template3(beq);
+}
+
+make_EHelper(bne) {
+  if (id_src->val != id_src2->val) {
+    // pc = pc + imm - 4
+    rtl_add(&t0, &decinfo.seq_pc, &id_dest->val);
+    rtl_subi(&t0, &t0, 4);
+    // printf("t0 = 0x%08x\n", t0);
+    rtl_j(t0);
+  }
+
+  print_asm_template3(bne);
 }

@@ -53,7 +53,7 @@ static make_EHelper(op_r) {
 
 static OpcodeEntry op_b_table [8] = {
   /* b000 */ EX(beq),
-  /* b001 */ EMPTY,
+  /* b001 */ EX(bne),
   /* b010 */ EMPTY,
   /* b011 */ EMPTY,
   /* b100 */ EMPTY,
