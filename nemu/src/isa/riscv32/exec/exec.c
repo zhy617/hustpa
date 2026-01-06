@@ -103,7 +103,7 @@ static OpcodeEntry op_r_table [8] = {
   /* b001 */ EX(sll),
   /* b010 */ EMPTY,
   /* b011 */ EX(sltu),
-  /* b100 */ EX(xor),
+  /* b100 */ EX(op_r_4),
   /* b101 */ EX(op_r_5),
   /* b110 */ EX(or),
   /* b111 */ EX(and),
