@@ -9,6 +9,7 @@ make_EHelper(sltu);
 make_EHelper(xor);
 make_EHelper(or);
 make_EHelper(sltiu);
+make_EHelper(sub);
 
 // control instructions
 make_EHelper(jalr);

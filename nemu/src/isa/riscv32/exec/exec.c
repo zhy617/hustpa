@@ -35,8 +35,21 @@ static make_EHelper(op_imm) {
   idex(pc, &op_imm_table[decinfo.isa.instr.funct3]);
 }
 
+// Level 3 table for funct3 = 0b000, indexed by funct7
+static OpcodeEntry op_r_0_table [2] = {
+  /* b0000000 */ EX(add),
+  /* b0100000 */ EX(sub),
+};
+
+// Level 3 dispatcher for funct3 = 0b000
+static make_EHelper(op_r_0) {
+  // We only care about bit 5 of funct7 to distinguish add/sub
+  uint32_t funct7_bit5 = (decinfo.isa.instr.funct7 >> 5) & 1;
+  idex(pc, &op_r_0_table[funct7_bit5]);
+}
+
 static OpcodeEntry op_r_table [8] = {
-  /* b000 */ EX(add),
+  /* b000 */ EX(op_r_0),
   /* b001 */ EMPTY,
   /* b010 */ EMPTY,
   /* b011 */ EX(sltu),
