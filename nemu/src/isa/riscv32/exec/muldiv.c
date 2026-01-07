@@ -1,7 +1,7 @@
 #include "cpu/exec.h"
 
 make_EHelper(mul) {
-  rtl_imul_lo(&s0, &id_src->val, &id_src2->val);
+  rtl_mul_lo(&s0, &id_src->val, &id_src2->val);
 
   rtl_sr(id_dest->reg, &s0, 4);
 
