@@ -57,9 +57,9 @@ void difftest_init(void) {
     }
 
     close(STDIN_FILENO);
-    // execlp(ISA_QEMU_BIN, ISA_QEMU_BIN, ISA_QEMU_ARGS "-S", "-s", "-nographic", NULL);
+    execlp(ISA_QEMU_BIN, ISA_QEMU_BIN, ISA_QEMU_ARGS "-S", "-s", "-nographic", NULL);
     // execlp(ISA_QEMU_BIN, ISA_QEMU_BIN, ISA_QEMU_ARGS "-S", "-s", "-nographic", "-serial", "none", NULL);
-    execlp(ISA_QEMU_BIN, ISA_QEMU_BIN, ISA_QEMU_ARGS "-S", "-s", "-nographic", "-serial", "none", "-monitor", "none", NULL);
+    // execlp(ISA_QEMU_BIN, ISA_QEMU_BIN, ISA_QEMU_ARGS "-S", "-s", "-nographic", "-serial", "none", "-monitor", "none", NULL);
     perror("exec");
     assert(0);
   }
