@@ -94,6 +94,7 @@ MAIN_RETURN_TYPE main(void) {
 	char *argv[1];
 #else
 MAIN_RETURN_TYPE main(int argc, char *argv[]) {
+	ee_printf("fuck you coremark!!\n");
 #endif
 	ee_u16 i,j=0,num_algorithms=0;
 	ee_s16 known_id=-1,total_errors=0;
