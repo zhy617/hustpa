@@ -43,6 +43,7 @@ char *itoa_(int n)  {
     s[--i] = '0';
     return &s[i];
   }
+  printf("fuckfuck\n");
   printf("%s\n", &s[i]);
   do {
     s[--i] = n % 10 + '0';  
