@@ -110,9 +110,9 @@ void redraw_screen() {
   fly_t it;
   const char *hit, *miss;
 
-  hit = my_itoa(get_hit());
-  printf("hit: %s\n", hit);
-  while(1);
+  // hit = my_itoa(get_hit());
+  // printf("hit: %s\n", hit);
+  // while(1);
 
   clear_screen();
 
