@@ -59,8 +59,8 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
         *out++ = *fmt;
         break;
     }
-    *out = '\0';
   }
+  *out = '\0';
   return out - start;
 }
 
