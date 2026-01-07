@@ -112,7 +112,7 @@ static void execute_bf() {
     // printf("pc=%d, ptr=%d, op=%d\n", pc, ptr, PROGRAM[pc].operator);
     cnt++;
     if (cnt < 100) {
-      printf("pc=%d, ptr=%d\n", pc, ptr);
+      printf("cnt=%d, pc=%d, ptr=%d\n", cnt, pc, ptr);
     }
     switch (PROGRAM[pc].operator) {
       case OP_INC_DP: ptr++; break;
