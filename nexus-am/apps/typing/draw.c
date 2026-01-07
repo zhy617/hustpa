@@ -37,14 +37,14 @@ char *my_itoa(int n)  {
   int i = sizeof(s) - 1;
 
   s[i] = '\0';
+  printf("fuckfuck\n");
+  printf("%s\n", &s[i]);
 
   // 特殊处理 n = 0 的情况
   if (n == 0) {
     s[--i] = '0';
     return &s[i];
   }
-  printf("fuckfuck\n");
-  printf("%s\n", &s[i]);
   do {
     s[--i] = n % 10 + '0';  
     n /= 10;
