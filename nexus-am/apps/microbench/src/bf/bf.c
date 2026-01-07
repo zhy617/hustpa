@@ -143,6 +143,7 @@ void bench_bf_prepare() {
   noutput = 0;
 
   bench_srand(1);
+  printf("ARR_SIZE = %d\n", ARR_SIZE);
   for (int i = 0; i < ARR_SIZE; i ++) {
     input[i] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"[bench_rand() % 62];
     printf("%c", input[i]);
