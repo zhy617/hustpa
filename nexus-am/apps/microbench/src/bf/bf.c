@@ -108,6 +108,7 @@ static int noutput;
 static void execute_bf() {
   unsigned int pc = 0, ptr = 0;
   while (PROGRAM[pc].operator != OP_END && ptr < DATA_SIZE) {
+    printf("pc=%d, ptr=%d, op=%d\n", pc, ptr, PROGRAM[pc].operator);
     switch (PROGRAM[pc].operator) {
       case OP_INC_DP: ptr++; break;
       case OP_DEC_DP: ptr--; break;
