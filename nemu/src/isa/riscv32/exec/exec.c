@@ -19,6 +19,18 @@ static make_EHelper(store) {
   idex(pc, &store_table[decinfo.isa.instr.funct3]);
 }
 
+static OpcodeEntry op_imm_1_table [2] = {
+  /* b0000000 */ EX(slli),
+};
+
+static make_EHelper(op_imm_1) {
+  // We only care about bit 0 of funct7 to distinguish slli
+  switch (decinfo.isa.instr.funct7) {
+    case 0b0000000: idex(pc, &op_imm_1_table[0]); break;
+    default: exec_inv(pc); break; // Handle unknown funct7
+  }
+}
+
 // Level 3 table for op-imm, funct3 = 0b101
 static OpcodeEntry op_imm_5_table [2] = {
   /* b0000000 */ EX(srli),
@@ -36,7 +48,7 @@ static make_EHelper(op_imm_5) {
 
 static OpcodeEntry op_imm_table [8] = {
   /* b000 */ EX(addi),
-  /* b001 */ EX(slli),
+  /* b001 */ EX(op_imm_1),
   /* b010 */ EMPTY,
   /* b011 */ EX(sltiu),
   /* b100 */ EX(xori),
