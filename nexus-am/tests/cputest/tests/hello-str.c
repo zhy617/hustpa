@@ -3,7 +3,7 @@
 char buf[128];
 
 int main() {
-	sprintf(buf, "%s", "\n");
+	sprintf(buf, "%s", "Hello\n");
 	// nemu_assert(strcmp(buf, "Hello world!\n") == 0);
 
 	// sprintf(buf, "%d + %d = %d\n", 1, 1, 2);
