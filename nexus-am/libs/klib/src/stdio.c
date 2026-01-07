@@ -35,7 +35,6 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
       case 'd': {
         int val = va_arg(ap, int);
         int is_negative = 0;
-        printf("val = %d\n", val);
         if (val < 0) {
           is_negative = 1;
           val = -val;
