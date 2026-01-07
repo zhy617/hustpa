@@ -137,6 +137,7 @@ static make_EHelper(op_r_4) {
 static OpcodeEntry op_r_5_table [2] = {
   /* b0000000 */ EX(srl),
   /* b0100000 */ EX(sra),
+  /* b0000001 */ EX(divu),
 };
 
 static make_EHelper(op_r_5) {
@@ -146,6 +147,7 @@ static make_EHelper(op_r_5) {
   switch (decinfo.isa.instr.funct7) {
     case 0b0000000: idex(pc, &op_r_5_table[0]); break;
     case 0b0100000: idex(pc, &op_r_5_table[1]); break;
+    case 0b0000001: idex(pc, &op_r_5_table[2]); break;
     default: exec_inv(pc); break; // Handle unknown funct7
   }
 }

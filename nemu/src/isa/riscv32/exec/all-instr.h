@@ -45,6 +45,7 @@ make_EHelper(div);
 make_EHelper(mulhu);
 make_EHelper(mulh);
 make_EHelper(remu);
+make_EHelper(divu);
 
 make_EHelper(inv);
 make_EHelper(nemu_trap);
