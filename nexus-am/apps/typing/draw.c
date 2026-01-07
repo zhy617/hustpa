@@ -118,17 +118,17 @@ void redraw_screen() {
   }
 
   /* 绘制命中数、miss数、最后一次按键扫描码和fps */
-  const char *key = itoa_(last_key_code());
-  printf("fuck you last_key_code: %s\n", key);
-  draw_string(key, 0, H - 8, 0xffffffff);
-  hit = itoa_(get_hit());
-  printf("fuck you!!!%d  %d\n", get_hit(), strlen(hit));
-  draw_string(hit, W - strlen(hit) * 8, 0, 0x00ff00);
-  miss = itoa_(get_miss());
-  draw_string(miss, W - strlen(miss) * 8, H - 8, 0xfa5858);
-  const char *fps = itoa_(get_fps());
-  draw_string(fps, 0, 0, 0xf3f781);
-  draw_string("FPS", strlen(fps) * 8, 0, 0xf3f781);
+  // const char *key = itoa_(last_key_code());
+  // printf("fuck you last_key_code: %s\n", key);
+  // draw_string(key, 0, H - 8, 0xffffffff);
+  // hit = itoa_(get_hit());
+  // printf("fuck you!!!%d  %d\n", get_hit(), strlen(hit));
+  // draw_string(hit, W - strlen(hit) * 8, 0, 0x00ff00);
+  // miss = itoa_(get_miss());
+  // draw_string(miss, W - strlen(miss) * 8, H - 8, 0xfa5858);
+  // const char *fps = itoa_(get_fps());
+  // draw_string(fps, 0, 0, 0xf3f781);
+  // draw_string("FPS", strlen(fps) * 8, 0, 0xf3f781);
 
 #ifdef SCREEN_STRETCH
   assert(0);
