@@ -32,7 +32,7 @@ void init_screen(void) {
   draw_sync();
 }
 
-char *itoa_(int n)  {  
+inline char *itoa_(int n)  {  
   static char s[64];
   int i = sizeof(s) - 1;
 
