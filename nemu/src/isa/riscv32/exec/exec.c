@@ -134,7 +134,7 @@ static make_EHelper(op_r_4) {
   }
 }
 
-static OpcodeEntry op_r_5_table [2] = {
+static OpcodeEntry op_r_5_table [3] = {
   /* b0000000 */ EX(srl),
   /* b0100000 */ EX(sra),
   /* b0000001 */ EX(divu),
