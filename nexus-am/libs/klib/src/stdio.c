@@ -25,6 +25,11 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
     }
     ++fmt;
     switch (*fmt) {
+      case 'c': {
+        char ch = (char)va_arg(ap, int);
+        *out++ = ch;
+        break;
+      }
       case 's': {
         char* str = va_arg(ap, char*);
         while (*str) {
