@@ -37,8 +37,8 @@ char *my_itoa(int n)  {
   int i = sizeof(s) - 1;
 
   s[i] = '\0';
-  printf("fuckfuck\n");
-  printf("%s\n", &s[i]);
+  // printf("fuckfuck\n");
+  // printf("%s\n", &s[i]);
 
   // 特殊处理 n = 0 的情况
   if (n == 0) {
@@ -124,10 +124,10 @@ void redraw_screen() {
 
   /* 绘制命中数、miss数、最后一次按键扫描码和fps */
   const char *key = my_itoa(last_key_code());
-  printf("fuck you last_key_code: %s\n", key);
+  // printf("fuck you last_key_code: %s\n", key);
   draw_string(key, 0, H - 8, 0xffffffff);
   hit = my_itoa(get_hit());
-  printf("fuck you!!!%d  %d\n", get_hit(), strlen(hit));
+  // printf("fuck you!!!%d  %d\n", get_hit(), strlen(hit));
   draw_string(hit, W - strlen(hit) * 8, 0, 0x00ff00);
   miss = my_itoa(get_miss());
   draw_string(miss, W - strlen(miss) * 8, H - 8, 0xfa5858);

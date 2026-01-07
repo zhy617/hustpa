@@ -3,8 +3,12 @@
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
 size_t strlen(const char *s) {
-  assert(0);
-  return 0;
+  assert(s != NULL); // 确保传入的指针不是空指针
+  const char *p = s;
+  while (*p) { // 当 *p 不是 '\0' 时，循环继续
+    p++;
+  }
+  return p - s; // 结束指针减去起始指针，就是字符串的长度
 }
 
 char *strcpy(char* dst,const char* src) {
@@ -41,6 +45,7 @@ int strcmp(const char* s1, const char* s2) {
 }
 
 int strncmp(const char* s1, const char* s2, size_t n) {
+  assert(0);
   return 0;
 }
 
