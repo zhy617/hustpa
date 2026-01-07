@@ -111,7 +111,7 @@ static void execute_bf() {
   while (PROGRAM[pc].operator != OP_END && ptr < DATA_SIZE) {
     // printf("pc=%d, ptr=%d, op=%d\n", pc, ptr, PROGRAM[pc].operator);
     cnt++;
-    if (cnt < 25) {
+    if (cnt <= 10) {
       printf("cnt=%d, pc=%d, ptr=%d\n", cnt, pc, ptr);
       printf("PROGRAM[pc]: op=%d, operand=%d\n", PROGRAM[pc].operator, PROGRAM[pc].operand);
       printf("data[ptr]=%d\n", data[ptr]);
