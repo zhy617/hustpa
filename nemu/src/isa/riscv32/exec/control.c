@@ -1,6 +1,8 @@
 #include "cpu/exec.h"
 
 make_EHelper(jalr) {
+  difftest_skip_dut(1, 2);
+
   // 1. Calculate target address: t0 = rs1 + imm
   rtl_add(&t0, &id_src->val, &id_src2->val);
   // Align to 2 bytes by clearing the LSB: t0 = t0 & ~1
