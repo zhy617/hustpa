@@ -48,6 +48,8 @@ static inline void draw_character(char ch, int x, int y, int color) {
   uint32_t buf[8][8];
   for (i = 0; i < 8; i ++)
     for (j = 0; j < 8; j ++) {
+      printf("draw_character: x=%d, y=%d\n", x + j, y + i);
+      printf("Width=%d, Height=%d\n", W, H);
       assert(x + j < W && y + i < H);
       if ((p[i] >> j) & 1) {
         canvas[y + i][x + j] = color;
