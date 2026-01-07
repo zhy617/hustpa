@@ -86,9 +86,6 @@ int main(const char *args) {
 
   for (int i = 0; i < ARR_SIZE(benchmarks); i ++) {
     Benchmark *bench = &benchmarks[i];
-    if (strcmp(bench->name, "bf") != 0) {
-      continue;
-    }
     current = bench;
     setting = &bench->settings[setting_id];
     const char *msg = bench_check(bench);
@@ -162,9 +159,6 @@ void bench_srand(uint32_t _seed) {
 
 uint32_t bench_rand() {
   seed = (seed * (uint32_t)214013L + (uint32_t)2531011L);
-  // printf("bench_rand seed = %d\n", seed);
-  uint32_t val = (seed >> 16) & 0x7fff;
-  // printf("bench_rand val = %d\n", val);
   return (seed >> 16) & 0x7fff;
 }
 

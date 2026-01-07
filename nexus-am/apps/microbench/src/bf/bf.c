@@ -107,15 +107,7 @@ static int noutput;
 
 static void execute_bf() {
   unsigned int pc = 0, ptr = 0;
-  unsigned int cnt = 0;
   while (PROGRAM[pc].operator != OP_END && ptr < DATA_SIZE) {
-    // printf("pc=%d, ptr=%d, op=%d\n", pc, ptr, PROGRAM[pc].operator);
-    cnt++;
-    if (cnt <= 10) {
-      printf("cnt=%d, pc=%d, ptr=%d\n", cnt, pc, ptr);
-      printf("PROGRAM[pc]: op=%d, operand=%d\n", PROGRAM[pc].operator, PROGRAM[pc].operand);
-      printf("data[ptr]=%d\n", data[ptr]);
-    }
     switch (PROGRAM[pc].operator) {
       case OP_INC_DP: ptr++; break;
       case OP_DEC_DP: ptr--; break;
@@ -143,17 +135,9 @@ void bench_bf_prepare() {
   noutput = 0;
 
   bench_srand(1);
-  printf("ARR_SIZE = %d\n", ARR_SIZE);
   for (int i = 0; i < ARR_SIZE; i ++) {
-    uint32_t r = bench_rand();
-    // printf("%d: rand = %d -> ", i, r);
-    uint32_t m = r % 62;
-    printf("r = %d, m = %d\n", r, m);
-    input[i] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"[r % 62];
-    // printf("%c", input[i]);
+    input[i] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"[bench_rand() % 62];
   }
-  input[ARR_SIZE] = '\0';
-  printf("\n");
 }
 
 void bench_bf_run() {
@@ -163,8 +147,5 @@ void bench_bf_run() {
 
 int bench_bf_validate() {
   uint32_t cs = checksum(output, output + noutput);
-  printf("\nnoutput = %d, checksum = 0x%08x\n", noutput, cs);
-  printf("expected noutput = %d, expected checksum = 0x%08x\n",
-         ARR_SIZE, setting->checksum);
   return noutput == ARR_SIZE && cs == setting->checksum;
 }
