@@ -119,7 +119,7 @@ void redraw_screen() {
   printf("fuck you last_key_code: %s\n", key);
   draw_string(key, 0, H - 8, 0xffffffff);
   hit = itoa(get_hit());
-  printf("fuck you!!!\n");
+  printf("fuck you!!!%d\n", get_hit());
   draw_string(hit, W - strlen(hit) * 8, 0, 0x00ff00);
   miss = itoa(get_miss());
   draw_string(miss, W - strlen(miss) * 8, H - 8, 0xfa5858);
