@@ -36,6 +36,8 @@ char *itoa(int n)  {
   static char s[64];
   int i = sizeof(s) - 1;
 
+  s[i] = '\0';
+
   // 特殊处理 n = 0 的情况
   if (n == 0) {
     s[--i] = '0';
