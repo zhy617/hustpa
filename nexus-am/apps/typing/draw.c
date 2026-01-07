@@ -110,6 +110,10 @@ void redraw_screen() {
   fly_t it;
   const char *hit, *miss;
 
+  hit = my_itoa(get_hit());
+  printf("hit: %s\n", hit);
+  while(1);
+
   clear_screen();
 
   /* 绘制每个字符 */
@@ -117,19 +121,19 @@ void redraw_screen() {
     draw_character(it->text + 'A', it->x, it->y, 0xffffffff);
   }
 
+
   /* 绘制命中数、miss数、最后一次按键扫描码和fps */
   const char *key = my_itoa(last_key_code());
   printf("fuck you last_key_code: %s\n", key);
-  while(1);
-  // draw_string(key, 0, H - 8, 0xffffffff);
-  // hit = my_itoa(get_hit());
-  // printf("fuck you!!!%d  %d\n", get_hit(), strlen(hit));
-  // draw_string(hit, W - strlen(hit) * 8, 0, 0x00ff00);
-  // miss = my_itoa(get_miss());
-  // draw_string(miss, W - strlen(miss) * 8, H - 8, 0xfa5858);
-  // const char *fps = my_itoa(get_fps());
-  // draw_string(fps, 0, 0, 0xf3f781);
-  // draw_string("FPS", strlen(fps) * 8, 0, 0xf3f781);
+  draw_string(key, 0, H - 8, 0xffffffff);
+  hit = my_itoa(get_hit());
+  printf("fuck you!!!%d  %d\n", get_hit(), strlen(hit));
+  draw_string(hit, W - strlen(hit) * 8, 0, 0x00ff00);
+  miss = my_itoa(get_miss());
+  draw_string(miss, W - strlen(miss) * 8, H - 8, 0xfa5858);
+  const char *fps = my_itoa(get_fps());
+  draw_string(fps, 0, 0, 0xf3f781);
+  draw_string("FPS", strlen(fps) * 8, 0, 0xf3f781);
 
 #ifdef SCREEN_STRETCH
   assert(0);
