@@ -7,9 +7,11 @@ uint32_t bench_rand() {
   return (seed >> 16) & 0x7fff;
 }
 
+uint32_t ans[] = {41, 18467, 6334, 26500};
+
 int main() {
-    for (int i = 0; i < 10; i ++) {
-        printf("rand %d: %u\n", i, bench_rand());
+    for (int i = 0; i < 4; i ++) {
+        nemu_assert(bench_rand() == ans[i]);
     }
     return 0;
 }
