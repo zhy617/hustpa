@@ -147,5 +147,8 @@ void bench_bf_run() {
 
 int bench_bf_validate() {
   uint32_t cs = checksum(output, output + noutput);
+  printf("noutput = %d, checksum = 0x%08x\n", noutput, cs);
+  printf("expected noutput = %d, expected checksum = 0x%08x\n",
+         ARR_SIZE, setting->checksum);
   return noutput == ARR_SIZE && cs == setting->checksum;
 }
