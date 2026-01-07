@@ -199,23 +199,25 @@ MAIN_RETURN_TYPE main(int argc, char *argv[]) {
 	}
 	
 	/* automatically determine number of iterations if not set */
-	if (results[0].iterations==0) { 
-		secs_ret secs_passed=0;
-		ee_u32 divisor;
-		results[0].iterations=1;
-		while (secs_passed < (secs_ret)1) {
-			results[0].iterations*=10;
-			start_time();
-			iterate(&results[0]);
-			stop_time();
-			secs_passed=time_in_secs(get_time());
-		}
-		/* now we know it executes for at least 1 sec, set actual run time at about 10 secs */
-		divisor=(ee_u32)secs_passed;
-		if (divisor==0) /* some machines cast float to int as 0 since this conversion is not defined by ANSI, but we know at least one second passed */
-			divisor=1;
-		results[0].iterations*=1+10/divisor;
-	}
+	// if (results[0].iterations==0) { 
+	// 	secs_ret secs_passed=0;
+	// 	ee_u32 divisor;
+	// 	results[0].iterations=1;
+	// 	while (secs_passed < (secs_ret)1) {
+	// 		results[0].iterations*=10;
+	// 		start_time();
+	// 		iterate(&results[0]);
+	// 		stop_time();
+	// 		secs_passed=time_in_secs(get_time());
+	// 	}
+	// 	/* now we know it executes for at least 1 sec, set actual run time at about 10 secs */
+	// 	divisor=(ee_u32)secs_passed;
+	// 	if (divisor==0) /* some machines cast float to int as 0 since this conversion is not defined by ANSI, but we know at least one second passed */
+	// 		divisor=1;
+	// 	results[0].iterations*=1+10/divisor;
+	// }
+	results[0].iterations = 1; 
+    ee_printf("[DEBUG] Iterations manually set to 1 for debugging.\n");
 	/* perform actual benchmark */
 	start_time();
 #if (MULTITHREAD>1)
