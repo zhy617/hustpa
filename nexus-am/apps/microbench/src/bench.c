@@ -162,7 +162,7 @@ void bench_srand(uint32_t _seed) {
 
 uint32_t bench_rand() {
   seed = (seed * (uint32_t)214013L + (uint32_t)2531011L);
-  printf("bench_rand seed = %u\n", seed);
+  printf("bench_rand seed = %d\n", seed);
   return (seed >> 16) & 0x7fff;
 }
 
