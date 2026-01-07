@@ -147,8 +147,10 @@ void bench_bf_prepare() {
   for (int i = 0; i < ARR_SIZE; i ++) {
     uint32_t r = bench_rand();
     // printf("%d: rand = %d -> ", i, r);
+    uint32_t m = r % 62;
+    printf("m = %d\n", m);
     input[i] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"[r % 62];
-    printf("%c", input[i]);
+    // printf("%c", input[i]);
   }
   input[ARR_SIZE] = '\0';
   printf("\n");
