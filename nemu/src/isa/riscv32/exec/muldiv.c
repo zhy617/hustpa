@@ -31,3 +31,19 @@ make_EHelper(mulh) {
 
   print_asm_template3(mulh);
 }
+
+make_EHelper(rem) {
+  rtl_idiv_r(&s0, &id_src->val, &id_src2->val);
+
+  rtl_sr(id_dest->reg, &s0, 4);
+
+  print_asm_template3(rem);
+}
+
+make_EHelper(remu) {
+  rtl_div_r(&s0, &id_src->val, &id_src2->val);
+
+  rtl_sr(id_dest->reg, &s0, 4);
+
+  print_asm_template3(remu);
+}

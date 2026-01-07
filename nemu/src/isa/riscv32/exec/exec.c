@@ -82,6 +82,18 @@ static make_EHelper(op_r_1) {
   }
 }
 
+static OpcodeEntry op_r_2_table [1] = {
+  /* b0000000 */ EX(slt),
+};
+
+static make_EHelper(op_r_2) {
+  // We only care about bit 0 of funct7 to distinguish slt
+  switch (decinfo.isa.instr.funct7) {
+    case 0b0000000: idex(pc, &op_r_2_table[0]); break;
+    default: exec_inv(pc); break; // Handle unknown funct7
+  }
+}
+
 static OpcodeEntry op_r_3_table [2] = {
   /* b0000000 */ EX(sltu),
   /* b0000001 */ EX(mulhu),
@@ -117,8 +129,13 @@ static OpcodeEntry op_r_5_table [2] = {
 
 static make_EHelper(op_r_5) {
   // We only care about bit 5 of funct7 to distinguish srl/sra
-  uint32_t funct7_bit5 = (decinfo.isa.instr.funct7 >> 5) & 1;
-  idex(pc, &op_r_5_table[funct7_bit5]);
+  // uint32_t funct7_bit5 = (decinfo.isa.instr.funct7 >> 5) & 1;
+  // idex(pc, &op_r_5_table[funct7_bit5]);
+  switch (decinfo.isa.instr.funct7) {
+    case 0b0000000: idex(pc, &op_r_5_table[0]); break;
+    case 0b0100000: idex(pc, &op_r_5_table[1]); break;
+    default: exec_inv(pc); break; // Handle unknown funct7
+  }
 }
 
 static OpcodeEntry op_r_6_table [2] = {
@@ -135,15 +152,28 @@ static make_EHelper(op_r_6) {
   }
 }
 
+static OpcodeEntry op_r_7_table [2] = {
+  /* b0000000 */ EX(and),
+  /* b0000001 */ EX(remu), 
+};
+
+static make_EHelper(op_r_7) {
+  switch (decinfo.isa.instr.funct7) {
+    case 0b0000000: idex(pc, &op_r_7_table[0]); break;
+    case 0b0000001: idex(pc, &op_r_7_table[1]); break; // Added remu case
+    default: exec_inv(pc); break; // Handle unknown funct7
+  }
+}
+
 static OpcodeEntry op_r_table [8] = {
   /* b000 */ EX(op_r_0),
   /* b001 */ EX(op_r_1),
-  /* b010 */ EX(slt),
+  /* b010 */ EX(op_r_2),
   /* b011 */ EX(op_r_3),
   /* b100 */ EX(op_r_4),
   /* b101 */ EX(op_r_5),
   /* b110 */ EX(op_r_6),
-  /* b111 */ EX(and),
+  /* b111 */ EX(op_r_7),
 };
 
 static make_EHelper(op_r) {
