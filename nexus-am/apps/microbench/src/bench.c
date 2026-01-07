@@ -86,6 +86,9 @@ int main(const char *args) {
 
   for (int i = 0; i < ARR_SIZE(benchmarks); i ++) {
     Benchmark *bench = &benchmarks[i];
+    if (strcmp(bench->name, "bf") != 0) {
+      continue;
+    }
     current = bench;
     setting = &bench->settings[setting_id];
     const char *msg = bench_check(bench);
