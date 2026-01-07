@@ -159,7 +159,7 @@ static OpcodeEntry op_b_table [8] = {
   /* b100 */ EX(blt),
   /* b101 */ EX(bge),
   /* b110 */ EX(bltu),
-  /* b111 */ EMPTY,
+  /* b111 */ EX(bgeu),
 };
 
 static make_EHelper(op_b) {

@@ -31,6 +31,7 @@ make_EHelper(bne);
 make_EHelper(bge);
 make_EHelper(blt);
 make_EHelper(bltu);
+make_EHelper(bgeu);
 
 // load and store instructions
 make_EHelper(ld);
