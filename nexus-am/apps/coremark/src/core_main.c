@@ -44,16 +44,13 @@ void *iterate(void *pres) {
 	res->crclist=0;
 	res->crcmatrix=0;
 	res->crcstate=0;
+
 	for (i=0; i<iterations; i++) {
-		ee_printf("Starting %d iterations\n",i);
-		ee_printf("[DEBUG] Iteration %d: Starting list benchmark...\n", i);
-        crc=core_bench_list(res,1);
-        res->crc=crcu16(crc,res->crc);
-        ee_printf("[DEBUG] Iteration %d: list benchmark part 1 done.\n", i);
-        crc=core_bench_list(res,-1);
-        res->crc=crcu16(crc,res->crc);
-        ee_printf("[DEBUG] Iteration %d: list benchmark part 2 done.\n", i);
-        if (i==0) res->crclist=res->crc;
+		crc=core_bench_list(res,1);
+		res->crc=crcu16(crc,res->crc);
+		crc=core_bench_list(res,-1);
+		res->crc=crcu16(crc,res->crc);
+		if (i==0) res->crclist=res->crc;
 	}
 	return NULL;
 }
@@ -94,7 +91,6 @@ MAIN_RETURN_TYPE main(void) {
 	char *argv[1];
 #else
 MAIN_RETURN_TYPE main(int argc, char *argv[]) {
-	ee_printf("fuck you coremark!!\n");
 #endif
 	ee_u16 i,j=0,num_algorithms=0;
 	ee_s16 known_id=-1,total_errors=0;
@@ -203,25 +199,23 @@ MAIN_RETURN_TYPE main(int argc, char *argv[]) {
 	}
 	
 	/* automatically determine number of iterations if not set */
-	// if (results[0].iterations==0) { 
-	// 	secs_ret secs_passed=0;
-	// 	ee_u32 divisor;
-	// 	results[0].iterations=1;
-	// 	while (secs_passed < (secs_ret)1) {
-	// 		results[0].iterations*=10;
-	// 		start_time();
-	// 		iterate(&results[0]);
-	// 		stop_time();
-	// 		secs_passed=time_in_secs(get_time());
-	// 	}
-	// 	/* now we know it executes for at least 1 sec, set actual run time at about 10 secs */
-	// 	divisor=(ee_u32)secs_passed;
-	// 	if (divisor==0) /* some machines cast float to int as 0 since this conversion is not defined by ANSI, but we know at least one second passed */
-	// 		divisor=1;
-	// 	results[0].iterations*=1+10/divisor;
-	// }
-	results[0].iterations = 1; 
-    ee_printf("[DEBUG] Iterations manually set to 1 for debugging.\n");
+	if (results[0].iterations==0) { 
+		secs_ret secs_passed=0;
+		ee_u32 divisor;
+		results[0].iterations=1;
+		while (secs_passed < (secs_ret)1) {
+			results[0].iterations*=10;
+			start_time();
+			iterate(&results[0]);
+			stop_time();
+			secs_passed=time_in_secs(get_time());
+		}
+		/* now we know it executes for at least 1 sec, set actual run time at about 10 secs */
+		divisor=(ee_u32)secs_passed;
+		if (divisor==0) /* some machines cast float to int as 0 since this conversion is not defined by ANSI, but we know at least one second passed */
+			divisor=1;
+		results[0].iterations*=1+10/divisor;
+	}
 	/* perform actual benchmark */
 	start_time();
 #if (MULTITHREAD>1)
