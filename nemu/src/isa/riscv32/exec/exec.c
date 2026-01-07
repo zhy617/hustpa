@@ -49,7 +49,7 @@ static make_EHelper(op_imm_5) {
 static OpcodeEntry op_imm_table [8] = {
   /* b000 */ EX(addi),
   /* b001 */ EX(op_imm_1),
-  /* b010 */ EMPTY,
+  /* b010 */ EX(slti),
   /* b011 */ EX(sltiu),
   /* b100 */ EX(xori),
   /* b101 */ EX(op_imm_5),
