@@ -41,7 +41,7 @@ static OpcodeEntry op_imm_table [8] = {
   /* b011 */ EX(sltiu),
   /* b100 */ EX(xori),
   /* b101 */ EX(op_imm_5),
-  /* b110 */ EMPTY,
+  /* b110 */ EX(ori),
   /* b111 */ EX(andi),
 };
 

@@ -162,3 +162,11 @@ make_EHelper(slli) {
   rtl_sr(id_dest->reg, &s0, 4);
   print_asm_template3(slli);
 }
+
+make_EHelper(ori) {
+  rtl_or(&s0, &id_src->val, &id_src2->val);
+
+  rtl_sr(id_dest->reg, &s0, 4);
+
+  print_asm_template3(ori);
+}

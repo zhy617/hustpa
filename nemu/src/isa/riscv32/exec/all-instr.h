@@ -21,6 +21,7 @@ make_EHelper(and);
 make_EHelper(slt);
 make_EHelper(rem);
 make_EHelper(slli);
+make_EHelper(ori);
 
 
 // control instructions
