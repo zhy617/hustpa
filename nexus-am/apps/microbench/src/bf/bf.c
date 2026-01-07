@@ -148,7 +148,7 @@ void bench_bf_prepare() {
     uint32_t r = bench_rand();
     // printf("%d: rand = %d -> ", i, r);
     uint32_t m = r % 62;
-    printf("m = %d\n", m);
+    printf("r = %d, m = %d\n", r, m);
     input[i] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"[r % 62];
     // printf("%c", input[i]);
   }
