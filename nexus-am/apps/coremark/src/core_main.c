@@ -44,13 +44,16 @@ void *iterate(void *pres) {
 	res->crclist=0;
 	res->crcmatrix=0;
 	res->crcstate=0;
-
 	for (i=0; i<iterations; i++) {
-		crc=core_bench_list(res,1);
-		res->crc=crcu16(crc,res->crc);
-		crc=core_bench_list(res,-1);
-		res->crc=crcu16(crc,res->crc);
-		if (i==0) res->crclist=res->crc;
+		ee_printf("Starting %d iterations\n",i);
+		ee_printf("[DEBUG] Iteration %d: Starting list benchmark...\n", i);
+        crc=core_bench_list(res,1);
+        res->crc=crcu16(crc,res->crc);
+        ee_printf("[DEBUG] Iteration %d: list benchmark part 1 done.\n", i);
+        crc=core_bench_list(res,-1);
+        res->crc=crcu16(crc,res->crc);
+        ee_printf("[DEBUG] Iteration %d: list benchmark part 2 done.\n", i);
+        if (i==0) res->crclist=res->crc;
 	}
 	return NULL;
 }
