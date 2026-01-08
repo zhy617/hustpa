@@ -62,21 +62,18 @@ static make_EHelper(op_imm) {
   idex(pc, &op_imm_table[decinfo.isa.instr.funct3]);
 }
 
-// Level 3 table for funct3 = 0b000, indexed by funct7
 static OpcodeEntry op_r_0_table [3] = {
   EX(add),
   EX(sub),
   EX(mul), // Added mul
 };
 
-// Level 3 dispatcher for funct3 = 0b000
 static make_EHelper(op_r_0) {
-  // Use a switch statement for clarity and extensibility
   switch (decinfo.isa.instr.funct7) {
     case 0b0000000: idex(pc, &op_r_0_table[0]); break;
     case 0b0100000: idex(pc, &op_r_0_table[1]); break;
-    case 0b0000001: idex(pc, &op_r_0_table[2]); break; // Added mul case
-    default: exec_inv(pc); break; // Handle unknown funct7
+    case 0b0000001: idex(pc, &op_r_0_table[2]); break; 
+    default: exec_inv(pc); break; 
   }
 }
 
