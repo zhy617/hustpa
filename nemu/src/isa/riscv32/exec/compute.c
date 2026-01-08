@@ -27,7 +27,7 @@ make_EHelper(add) {
 make_EHelper(auipc) {
   // result = pc + imm - 4
   rtl_addi(&s0, &decinfo.seq_pc, id_src->imm);
-  // rtl_subi(&s0, &s0, 4);
+  rtl_subi(&s0, &s0, 4);
   // rd = result
   rtl_sr(id_dest->reg, &s0, 4);
 
