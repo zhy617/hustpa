@@ -17,3 +17,16 @@ make_EHelper(csrrs) {
 
   print_asm_template3(csrrs);
 }
+
+make_EHelper(csrrw) {
+    // 1. Read the old value from CSR and store it in a temporary RTL register s1.
+    rtl_li(&s1, csr_read(id_src->imm));
+    
+    // 2. Write the old value (now in s1) to the destination register rd.
+    rtl_mv(&id_dest->val, &s1);
+    
+    // 3. Write the value from rs1 (id_src->val) directly to the CSR.
+    csr_write(id_src->imm, id_src->val);
+    
+    print_asm_template3(csrrw);
+}

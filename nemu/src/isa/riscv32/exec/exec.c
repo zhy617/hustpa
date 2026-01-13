@@ -210,7 +210,7 @@ static make_EHelper(op_b) {
 
 static OpcodeEntry system_table [8] = {
   /* b000 */ EMPTY, // ecall/ebreak
-  /* b001 */ EMPTY,         // csrrw
+  /* b001 */ EX(csrrw),         // csrrw
   /* b010 */ EX(csrrs),     // csrrs
   /* b011 */ EMPTY,         // csrrc
   /* b100 */ EMPTY,
