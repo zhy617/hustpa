@@ -51,7 +51,7 @@ make_EHelper(ecall) {
 }
 
 make_EHelper(sret) {
-  cpu.pc = cpu.sepc; // set pc to sepc
+  rtl_j(cpu.sepc); 
   
   print_asm("sret");
 }
