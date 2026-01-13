@@ -15,7 +15,7 @@ _Context* __am_irq_handle(_Context *c) {
   // printf("irq: status = %x\n", c->status);
   uint32_t* ptr = c;
   for (int i = 0; i < 40; i++) {
-    printf("context[%d] = %x, addr = %p\n", i, ptr[i], &ptr[i]);
+    printf("context[%d] = %x, addr = %x\n", i, ptr[i], &ptr[i]);
   }
   if (user_handler) {
     _Event ev = {0};
