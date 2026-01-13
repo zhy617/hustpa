@@ -7,12 +7,16 @@ static _Context* (*user_handler)(_Event, _Context*) = NULL;
 
 _Context* __am_irq_handle(_Context *c) {
   _Context *next = c;
-  for (int i = 0; i < 32; i++) {
-    printf("gpr[%d] = %x\n", i, c->gpr[i]);
+  // for (int i = 0; i < 32; i++) {
+  //   printf("gpr[%d] = %x\n", i, c->gpr[i]);
+  // }
+  // printf("irq: cause = %x\n", c->cause);
+  // printf("irq: epc = %x\n", c->epc);
+  // printf("irq: status = %x\n", c->status);
+  uint32_t* ptr = c;
+  for (int i = 0; i < 40; i++) {
+    printf("context[%d] = %x\n", i, ptr[i]);
   }
-  printf("irq: cause = %x\n", c->cause);
-  printf("irq: epc = %x\n", c->epc);
-  printf("irq: status = %x\n", c->status);
   if (user_handler) {
     _Event ev = {0};
     switch (c->cause) {
