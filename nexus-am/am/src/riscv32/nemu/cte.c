@@ -20,7 +20,13 @@ _Context* __am_irq_handle(_Context *c) {
   if (user_handler) {
     _Event ev = {0};
     switch (c->cause) {
-      case IRQ_UECALL: ev.event = _EVENT_YIELD; printf("Yield event\n"); break;
+      case IRQ_UECALL: 
+      switch (c->GPR1) {
+        case -1: ev.event = _EVENT_YIELD; break;
+        case  1: ev.event = _EVENT_SYSCALL; break;
+      }
+      printf("Yield event\n"); 
+      break;
       default: ev.event = _EVENT_ERROR; break;
     }
     
