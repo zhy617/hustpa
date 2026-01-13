@@ -11,6 +11,12 @@ _Context* do_syscall(_Context *c) {
       c->GPRx = 0;
       return c;
       break;
+    case SYS_exit:
+      // Handle exit syscall
+      printf("Program exited with status %d\n", c->GPR2);
+      // Perform any necessary cleanup here
+      _halt(c->GPR2);
+      break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 
