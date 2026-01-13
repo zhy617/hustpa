@@ -12,6 +12,11 @@ void isa_reg_display() {
   for (i = 0; i < 32; i++) {
     printf("%s\t0x%08x\t%u\n", reg_name(i, 4), reg_l(i), reg_l(i));
   }
+  printf("pc\t0x%08x\n", cpu.pc);
+  printf("status\t0x%08x\n", cpu.sstatus);
+  printf("sepc\t0x%08x\n", cpu.sepc);
+  printf("stvec\t0x%08x\n", cpu.stvec);
+  printf("scause\t0x%08x\n", cpu.scause);
 }
 
 uint32_t isa_reg_str2val(const char *s, bool *success) {
