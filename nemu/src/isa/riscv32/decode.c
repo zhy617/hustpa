@@ -25,7 +25,7 @@ static inline make_DopHelper(r) {
 make_DHelper(U) {
   decode_op_i(id_src, decinfo.isa.instr.imm31_12 << 12, true);
   decode_op_r(id_dest, decinfo.isa.instr.rd, false);
-
+  // printf("fuck you!!\n");
   print_Dop(id_src->str, OP_STR_SIZE, "0x%x", decinfo.isa.instr.imm31_12);
 }
 
@@ -42,7 +42,8 @@ make_DHelper(ld) {
 
 make_DHelper(st) {
   decode_op_r(id_src, decinfo.isa.instr.rs1, true);
-  int32_t simm = (decinfo.isa.instr.simm11_5 << 5) | decinfo.isa.instr.imm4_0;
+  uint32_t imm12 = (decinfo.isa.instr.simm11_5 << 5) | decinfo.isa.instr.imm4_0;
+  int32_t simm = (int32_t)(imm12 << 20) >> 20;
   decode_op_i(id_src2, simm, true);
 
   print_Dop(id_src->str, OP_STR_SIZE, "%d(%s)", id_src2->val, reg_name(id_src->reg, 4));
@@ -50,4 +51,44 @@ make_DHelper(st) {
   rtl_add(&id_src->addr, &id_src->val, &id_src2->val);
 
   decode_op_r(id_dest, decinfo.isa.instr.rs2, true);
+}
+
+make_DHelper(I) {
+  decode_op_r(id_src, decinfo.isa.instr.rs1, true);
+  decode_op_i(id_src2, decinfo.isa.instr.simm11_0, true);
+  decode_op_r(id_dest, decinfo.isa.instr.rd, false);
+
+  print_Dop(id_src2->str, OP_STR_SIZE, "%d(%s)", id_src2->imm, reg_name(id_src->reg, 4));
+}
+
+make_DHelper(J) {
+  // 拼接J-Type的20位立即数
+  uint32_t imm20 = (decinfo.isa.instr.simm20 << 20) | (decinfo.isa.instr.imm19_12 << 12) | (decinfo.isa.instr.imm11_ << 11) | (decinfo.isa.instr.imm10_1 << 1);
+  // printf("simm20 before sign extend: 0x%08x\n", decinfo.isa.instr.simm20);
+  // printf("imm19_12 before sign extend: 0x%08x\n", decinfo.isa.instr.imm19_12);
+  // printf("imm11 before sign extend: 0x%08x\n", decinfo.isa.instr.imm11_);
+  // printf("imm10_1 before sign extend: 0x%08x\n", decinfo.isa.instr.imm10_1);
+
+  // 符号扩展
+  int32_t simm = (int32_t)(imm20 << 11) >> 11;
+  decode_op_i(id_src, simm, true);
+  decode_op_r(id_dest, decinfo.isa.instr.rd, false);
+  // printf("imm: 0x%08x\n", simm);
+  print_Dop(id_src->str, OP_STR_SIZE, "%d", id_src->imm);
+}
+
+make_DHelper(R) {
+  decode_op_r(id_src, decinfo.isa.instr.rs1, true);
+  decode_op_r(id_src2, decinfo.isa.instr.rs2, true);
+  decode_op_r(id_dest, decinfo.isa.instr.rd, false);
+  print_Dop(id_src->str, OP_STR_SIZE, "%s", reg_name(id_src->reg, 4));
+}
+
+make_DHelper(B) {
+  uint32_t imm12 = (decinfo.isa.instr.simm12 << 12) | (decinfo.isa.instr.imm10_5 << 5) | (decinfo.isa.instr.imm4_1 << 1) | (decinfo.isa.instr.imm11 << 11);
+  int32_t simm = (int32_t)(imm12 << 19) >> 19; 
+  decode_op_r(id_src, decinfo.isa.instr.rs1, true);
+  decode_op_r(id_src2, decinfo.isa.instr.rs2, true);
+  decode_op_i(id_dest, simm, true);
+  print_Dop(id_dest->str, OP_STR_SIZE, "%d", id_dest->imm);
 }

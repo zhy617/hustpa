@@ -32,9 +32,19 @@ void init_screen(void) {
   draw_sync();
 }
 
-char *itoa(int n)  {  
+char *my_itoa(int n)  {  
   static char s[64];
   int i = sizeof(s) - 1;
+
+  s[i] = '\0';
+  // printf("fuckfuck\n");
+  // printf("%s\n", &s[i]);
+
+  // 特殊处理 n = 0 的情况
+  if (n == 0) {
+    s[--i] = '0';
+    return &s[i];
+  }
   do {
     s[--i] = n % 10 + '0';  
     n /= 10;
@@ -48,6 +58,8 @@ static inline void draw_character(char ch, int x, int y, int color) {
   uint32_t buf[8][8];
   for (i = 0; i < 8; i ++)
     for (j = 0; j < 8; j ++) {
+      // printf("draw_character: x=%d, y=%d\n", x + j, y + i);
+      // printf("Width=%d, Height=%d\n", W, H);
       assert(x + j < W && y + i < H);
       if ((p[i] >> j) & 1) {
         canvas[y + i][x + j] = color;
@@ -98,6 +110,10 @@ void redraw_screen() {
   fly_t it;
   const char *hit, *miss;
 
+  // hit = my_itoa(get_hit());
+  // printf("hit: %s\n", hit);
+  // while(1);
+
   clear_screen();
 
   /* 绘制每个字符 */
@@ -105,14 +121,17 @@ void redraw_screen() {
     draw_character(it->text + 'A', it->x, it->y, 0xffffffff);
   }
 
+
   /* 绘制命中数、miss数、最后一次按键扫描码和fps */
-  const char *key = itoa(last_key_code());
+  const char *key = my_itoa(last_key_code());
+  // printf("fuck you last_key_code: %s\n", key);
   draw_string(key, 0, H - 8, 0xffffffff);
-  hit = itoa(get_hit());
+  hit = my_itoa(get_hit());
+  // printf("fuck you!!!%d  %d\n", get_hit(), strlen(hit));
   draw_string(hit, W - strlen(hit) * 8, 0, 0x00ff00);
-  miss = itoa(get_miss());
+  miss = my_itoa(get_miss());
   draw_string(miss, W - strlen(miss) * 8, H - 8, 0xfa5858);
-  const char *fps = itoa(get_fps());
+  const char *fps = my_itoa(get_fps());
   draw_string(fps, 0, 0, 0xf3f781);
   draw_string("FPS", strlen(fps) * 8, 0, 0xf3f781);
 
