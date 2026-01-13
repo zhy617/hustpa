@@ -21,7 +21,7 @@ make_EHelper(csrrs) {
 
 make_EHelper(csrrw) {
     // 1. Read the old value from CSR and store it in a temporary RTL register s1.
-    // printf("imm: %d\n", id_src2->val);
+    printf("imm: %d\n", id_src2->val);
     rtl_li(&s1, csr_read(id_src2->val));
     
     // 2. Write the old value (now in s1) to the destination register rd.
