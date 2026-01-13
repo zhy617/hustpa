@@ -50,10 +50,10 @@ typedef union {
 
 struct ISADecodeInfo {
   Instr instr;
-  uint32_t sepc;
-  uint32_t sstatus;
-  uint32_t stvec;
-  uint32_t scause;
+  // uint32_t sepc;
+  // uint32_t sstatus;
+  // uint32_t stvec;
+  // uint32_t scause;
 };
 
 make_DHelper(U);
