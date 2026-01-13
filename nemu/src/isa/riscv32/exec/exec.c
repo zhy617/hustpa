@@ -208,8 +208,21 @@ static make_EHelper(op_b) {
   idex(pc, &op_b_table[decinfo.isa.instr.funct3]);
 }
 
+static OpcodeEntry op_sys_0_table [2] = {
+  /* b000000000000 */ EX(ecall),
+  /* b000100000010 */ IDEX(R, sret),
+};
+
+static make_EHelper(op_sys_0) {
+  switch (decinfo.isa.instr.simm11_0) {
+    case 0b000000000000: idex(pc, &op_sys_0_table[0]); break;
+    case 0b000100000010: idex(pc, &op_sys_0_table[1]); break;
+    default: exec_inv(pc); break; // Handle unknown funct7
+  }
+}
+
 static OpcodeEntry system_table [8] = {
-  /* b000 */ EX(ecall), // ecall/ebreak
+  /* b000 */ EX(op_sys_0), // ecall sret
   /* b001 */ EX(csrrw),         // csrrw
   /* b010 */ EX(csrrs),     // csrrs
   /* b011 */ EMPTY,         // csrrc
