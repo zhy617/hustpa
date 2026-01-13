@@ -36,7 +36,7 @@ _Context* __am_irq_handle(_Context *c) {
       next = c;
     }
   }
-
+  next->epc += 4;
   return next;
 }
 
