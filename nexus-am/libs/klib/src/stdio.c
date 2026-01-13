@@ -58,6 +58,20 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
         }
         break;
       }
+      case 'x': {
+        unsigned int val = va_arg(ap, unsigned int);
+        char* hex_chars = "0123456789abcdef";
+        char* p = temp_str + 32;
+        *p = '\0';
+        do {
+          *(--p) = hex_chars[val % 16];
+          val /= 16;
+        } while (val != 0);
+        while (*p) {
+          *out++ = *p++;
+        }
+        break;
+      }
       default:
         // Unsupported format specifier, ignore
         *out++ = '%';
