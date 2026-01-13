@@ -37,7 +37,7 @@ make_EHelper(ecall) {
   // Trigger an environment call exception
   // make sure not sret
   assert((decinfo.isa.instr.val & 0xfff) == 0x73);
-  raise_intr(11, decinfo.seq_pc); // 11 is the exception code for ecall from U-mode
+  raise_intr(8, decinfo.seq_pc); // 8 is the exception code for ecall from U-mode
 
   print_asm("ecall");
 }
