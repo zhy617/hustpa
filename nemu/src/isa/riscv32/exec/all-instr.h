@@ -51,4 +51,7 @@ make_EHelper(divu);
 make_EHelper(inv);
 make_EHelper(nemu_trap);
 
+// system instructions
+make_EHelper(csrrs);
+
 

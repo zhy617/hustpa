@@ -208,6 +208,21 @@ static make_EHelper(op_b) {
   idex(pc, &op_b_table[decinfo.isa.instr.funct3]);
 }
 
+static OpcodeEntry system_table [8] = {
+  /* b000 */ EMPTY, // ecall/ebreak
+  /* b001 */ EMPTY,         // csrrw
+  /* b010 */ EX(csrrs),     // csrrs
+  /* b011 */ EMPTY,         // csrrc
+  /* b100 */ EMPTY,
+  /* b101 */ EMPTY,         // csrrwi
+  /* b110 */ EMPTY,         // csrrsi
+  /* b111 */ EMPTY,         // csrrci
+};
+
+static make_EHelper(system) {
+  idex(pc, &system_table[decinfo.isa.instr.funct3]);
+}
+
 static OpcodeEntry opcode_table [32] = {
   /* b00000 */ IDEX(ld, load),    EMPTY,              EMPTY,            EMPTY,
   /* b00100 */ IDEX(I, op_imm),   IDEX(U, auipc),     EMPTY,            EMPTY,
@@ -216,7 +231,7 @@ static OpcodeEntry opcode_table [32] = {
   /* b10000 */ EMPTY,             EMPTY,              EMPTY,            EMPTY,
   /* b10100 */ EMPTY,             EMPTY,              EMPTY,            EMPTY,
   /* b11000 */ IDEX(B, op_b),     IDEX(I, jalr),      EX(nemu_trap),    IDEX(J, jal),
-  /* b11100 */ EMPTY,             EMPTY,              EMPTY,    EMPTY,
+  /* b11100 */ IDEX(I, system),   EMPTY,              EMPTY,            EMPTY,
 };
 
 void isa_exec(vaddr_t *pc) {

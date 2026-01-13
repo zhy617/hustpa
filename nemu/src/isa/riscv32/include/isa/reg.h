@@ -4,6 +4,11 @@
 #include "common.h"
 
 void isa_reg_display();
+
+// csr read and write
+rtlreg_t csr_read(uint32_t addr);
+void csr_write(uint32_t addr, rtlreg_t data);
+
 uint32_t isa_reg_str2val(const char *s, bool *success);
 
 #define PC_START (0x80000000u + IMAGE_START)
@@ -14,7 +19,10 @@ typedef struct {
   } gpr[32];
 
   vaddr_t pc;
-
+  vaddr_t sepc;
+  rtlreg_t sstatus;
+  rtlreg_t stvec;
+  rtlreg_t scause;
 } CPU_state;
 
 static inline int check_reg_index(int index) {
@@ -31,3 +39,5 @@ static inline const char* reg_name(int index, int width) {
 }
 
 #endif
+
+

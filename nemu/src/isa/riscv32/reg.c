@@ -29,3 +29,34 @@ uint32_t isa_reg_str2val(const char *s, bool *success) {
   *success = false;
   return 0;
 }
+
+#define CSR_SEPC   0x141
+#define CSR_SCAUSE 0x142
+#define CSR_STVEC  0x105
+#define CSR_SSTATUS 0x100
+
+
+rtlreg_t csr_read(uint32_t addr) {
+  switch (addr) {
+    case CSR_SEPC:   return cpu.sepc;
+    case CSR_SCAUSE: return cpu.scause;
+    case CSR_STVEC:  return cpu.stvec;
+    case CSR_SSTATUS:return cpu.sstatus;
+    default:
+      // 处理未实现的CSR读取
+      panic("CSR read to unimplemented address 0x%x", addr);
+      return 0;
+  }
+}
+
+void csr_write(uint32_t addr, rtlreg_t data) {
+  switch (addr) {
+    case CSR_SEPC:   cpu.sepc = data; break;
+    case CSR_SCAUSE: cpu.scause = data; break;
+    case CSR_STVEC:  cpu.stvec = data; break;
+    case CSR_SSTATUS:cpu.sstatus = data; break;
+    default:
+      // 处理未实现的CSR写入
+      panic("CSR write to unimplemented address 0x%x", addr);
+  }
+}
