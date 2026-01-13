@@ -1,5 +1,6 @@
 #include "cpu/exec.h"
 #include "isa/reg.h"
+#include "isa/intr.h"
 
 make_EHelper(csrrs) {
   // 1. Read the old value from CSR and store it in a temporary RTL register s1.
@@ -20,7 +21,7 @@ make_EHelper(csrrs) {
 
 make_EHelper(csrrw) {
     // 1. Read the old value from CSR and store it in a temporary RTL register s1.
-    printf("imm: %d\n", id_src2->val);
+    // printf("imm: %d\n", id_src2->val);
     rtl_li(&s1, csr_read(id_src2->val));
     
     // 2. Write the old value (now in s1) to the destination register rd.
@@ -30,4 +31,13 @@ make_EHelper(csrrw) {
     csr_write(id_src2->val, id_src->val);
     
     print_asm_template3(csrrw);
+}
+
+make_EHelper(ecall) {
+  // Trigger an environment call exception
+  // make sure not sret
+  assert((decinfo.isa.instr.val & 0xfff) == 0x73);
+  raise_intr(11, decinfo.seq_pc); // 11 is the exception code for ecall from U-mode
+
+  print_asm("ecall");
 }

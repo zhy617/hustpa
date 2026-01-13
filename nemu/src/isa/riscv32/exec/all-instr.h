@@ -54,5 +54,6 @@ make_EHelper(nemu_trap);
 // system instructions
 make_EHelper(csrrs);
 make_EHelper(csrrw);
+make_EHelper(ecall);
 
 
