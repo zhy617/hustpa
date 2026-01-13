@@ -49,6 +49,19 @@ rtlreg_t csr_read(uint32_t addr) {
   }
 }
 
+rtlreg_t* csr_read_addr(uint32_t addr) {
+  switch (addr) {
+    case CSR_SEPC:   return &cpu.sepc;
+    case CSR_SCAUSE: return &cpu.scause;
+    case CSR_STVEC:  return &cpu.stvec;
+    case CSR_SSTATUS:return &cpu.sstatus;
+    default:
+      // 处理未实现的CSR读取
+      panic("CSR read to unimplemented address 0x%x", addr);
+      return NULL;
+  }
+}
+
 void csr_write(uint32_t addr, rtlreg_t data) {
   switch (addr) {
     case CSR_SEPC:   cpu.sepc = data; break;

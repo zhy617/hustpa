@@ -7,6 +7,7 @@ void isa_reg_display();
 
 // csr read and write
 rtlreg_t csr_read(uint32_t addr);
+rtlreg_t* csr_read_addr(uint32_t addr);
 void csr_write(uint32_t addr, rtlreg_t data);
 
 uint32_t isa_reg_str2val(const char *s, bool *success);
