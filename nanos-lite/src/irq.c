@@ -6,6 +6,7 @@ static _Context* do_event(_Event e, _Context* c) {
       printf("Handling yield event\n");
       // _yield();
       // TODO
+      return c;
       break;
     case _EVENT_SYSCALL:
       return do_syscall(c);
