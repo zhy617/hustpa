@@ -15,8 +15,8 @@ make_EHelper(csrrs) {
 
   // 4. Write the new value (in s0) back to the CSR.
   csr_write(id_src2->val, s0);
-  printf("pc = %x, csr addr = %x, old csr val = %x, rs1 val = %x, new csr val = %x\n",
-         decinfo.seq_pc, id_src2->val, s1, id_src->val, s0);
+  printf("pc = %x, csr addr = %x, old csr val = %x, rs1 val = %x, new csr val = %x\n, dest = %x",
+         decinfo.seq_pc, id_src2->val, s1, id_src->val, s0, id_dest->val);
   print_asm_template3(csrrs);
 }
 
