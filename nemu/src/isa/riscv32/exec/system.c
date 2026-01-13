@@ -21,7 +21,7 @@ make_EHelper(csrrs) {
 
 make_EHelper(csrrw) {
     // 1. Read the old value from CSR and store it in a temporary RTL register s1.
-    printf("imm: %d\n", id_src2->val);
+    // printf("imm: %d\n", id_src2->val);
     rtl_li(&s1, csr_read(id_src2->val));
     
     // 2. Write the old value (now in s1) to the destination register rd.
@@ -37,6 +37,7 @@ make_EHelper(ecall) {
   // Trigger an environment call exception
   // make sure not sret
   assert((decinfo.isa.instr.val & 0xfff) == 0x73);
+  printf("ecall at pc = %x\n", decinfo.seq_pc);
   raise_intr(8, decinfo.seq_pc); // 8 is the exception code for ecall from U-mode
 
   print_asm("ecall");
