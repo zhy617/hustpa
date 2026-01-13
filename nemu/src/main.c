@@ -47,6 +47,6 @@ int main(int argc, char *argv[]) {
   //   return 0;
   // }
   // else {
-  ui_mainloop(is_batch_mode);
+  ui_mainloop(0);
   // }
 }
