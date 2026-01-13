@@ -1,5 +1,6 @@
 #include "proc.h"
 #include <elf.h>
+#include "ramdisk.h"
 
 #ifdef __ISA_AM_NATIVE__
 # define Elf_Ehdr Elf64_Ehdr
@@ -10,7 +11,25 @@
 #endif
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
-  TODO();
+  // TODO();
+  Elf_Ehdr ehdr;
+  ramdisk_read(&ehdr, 0, sizeof(Elf_Ehdr));
+  // check magic number
+  assert(*(uint32_t *)ehdr.e_ident == 0x464c457f);
+  assert(ehdr.e_ident[EI_CLASS] == ELFCLASS32);
+  
+  Elf_Phdr phdr;
+  uint32_t ph_offset = ehdr.e_phoff;
+  for (int i = 0; i < ehdr.e_phnum; i++) {
+    ramdisk_read(&phdr, ph_offset + i * sizeof(Elf_Phdr), sizeof(Elf_Phdr));
+    if (phdr.p_type == PT_LOAD) {
+      // load segment
+      ramdisk_read((void *)phdr.p_vaddr, phdr.p_offset, phdr.p_filesz);
+      // zero the rest bytes
+      memset((void *)(phdr.p_vaddr + phdr.p_filesz), 0, phdr.p_memsz - phdr.p_filesz);
+    }
+  }
+
   return 0;
 }
 
