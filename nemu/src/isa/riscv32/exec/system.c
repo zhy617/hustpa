@@ -7,7 +7,7 @@ make_EHelper(csrrs) {
   rtl_li(&s1, csr_read(id_src2->val));
 
   // 2. Write the old value (now in s1) to the destination register rd.
-  rtl_mv(&id_dest->val, &s1);
+  rtl_sr(id_dest->val, &s1, 4);
 
   // 3. Calculate the new value: new_val = old_val | rs1_val
   //    rs1_val is in id_src->val, old_val is in s1. Result stored in s0.
@@ -27,7 +27,7 @@ make_EHelper(csrrw) {
     rtl_li(&s1, csr_read(id_src2->val));
     
     // 2. Write the old value (now in s1) to the destination register rd.
-    rtl_mv(&id_dest->val, &s1);
+    rtl_sr(id_dest->val, &s1, 4);
     
     // 3. Write the value from rs1 (id_src->val) directly to the CSR.
     csr_write(id_src2->val, id_src->val);
