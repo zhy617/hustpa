@@ -1,6 +1,8 @@
 #include <am.h>
 #include <riscv32.h>
 
+#define IRQ_UECALL 8
+
 static _Context* (*user_handler)(_Event, _Context*) = NULL;
 
 _Context* __am_irq_handle(_Context *c) {
@@ -9,6 +11,7 @@ _Context* __am_irq_handle(_Context *c) {
   if (user_handler) {
     _Event ev = {0};
     switch (c->cause) {
+      case IRQ_UECALL: ev.event = _EVENT_YIELD; printf("Yield event\n"); break;
       default: ev.event = _EVENT_ERROR; break;
     }
     
