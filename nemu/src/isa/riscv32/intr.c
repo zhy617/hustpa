@@ -8,6 +8,7 @@ void raise_intr(uint32_t NO, vaddr_t epc) {
   cpu.sepc = epc;
   cpu.scause = NO;
   decinfo.jmp_pc = cpu.stvec;
+  printf("stvec: 0x%x\n", cpu.stvec);
   rtl_j(decinfo.isa.stvec);
 }
 
