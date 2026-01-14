@@ -2,8 +2,8 @@
 #include <amdev.h>
 
 size_t serial_write(const void *buf, size_t offset, size_t len) {
-  printf("serial_write: buf=%x, offset=%d, len=%d\n", buf, offset, len);
-  printf("%s\n", (char *)buf);
+  // printf("serial_write: buf=%x, offset=%d, len=%d\n", buf, offset, len);
+  // printf("%s\n", (char *)buf);
   for(size_t i = 0; i < len; i++) {
     _putc(*((char *)buf + i));
   }
