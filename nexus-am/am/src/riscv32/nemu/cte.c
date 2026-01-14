@@ -22,6 +22,7 @@ _Context* __am_irq_handle(_Context *c) {
     switch (c->cause) {
       case IRQ_UECALL: 
       // printf("c->GPR1 = %d\n", c->GPR1);
+      printf("c->GPR3 = %d\n", c->GPR3);
       switch (c->GPR1) {
         case -1: ev.event = _EVENT_YIELD; break;
         default: ev.event = _EVENT_SYSCALL; break;

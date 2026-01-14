@@ -11,8 +11,8 @@ static _Context* do_event(_Event e, _Context* c) {
       return c;
       break;
     case _EVENT_SYSCALL:
-      printf("Handling syscall event\n");
-      printf("GPR3 = %d\n", c->GPR3);
+      // printf("Handling syscall event\n");
+      // printf("GPR3 = %d\n", c->GPR3);
       return do_syscall(c);
 
     default: panic("Unhandled event ID = %d", e.event);
