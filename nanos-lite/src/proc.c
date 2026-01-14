@@ -28,7 +28,7 @@ void init_proc() {
   Log("Initializing processes...");
 
   // load program here
-  naive_uload(p, "/bin/hello");
+  naive_uload(p, "/bin/text");
   // naive_uload(p, NULL);
 }
 
