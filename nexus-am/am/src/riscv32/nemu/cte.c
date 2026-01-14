@@ -46,7 +46,7 @@ int _cte_init(_Context*(*handler)(_Event, _Context*)) {
   // initialize exception entry
   asm volatile("csrw stvec, %0" : : "r"(__am_asm_trap));
 
-  printf("_cte_init called\n");
+  // printf("_cte_init called\n");
   // register event handler
   user_handler = handler;
 
