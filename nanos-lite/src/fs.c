@@ -17,7 +17,7 @@ typedef struct {
   WriteFn write;
 } Finfo;
 
-enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_EVENTS, FD_FB, FD_FBSYNC};
+enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_EVENTS, FD_FB, FD_FBSYNC, FD_DISPINFO};
 
 size_t invalid_read(void *buf, size_t offset, size_t len) {
   panic("should not reach here");
@@ -73,6 +73,7 @@ size_t fs_read(int fd, void *buf, size_t len) {
     size_t ret = f->read(buf, offset, len);
     switch (fd) {
       case FD_EVENTS:
+      // case FD_DISPINFO:
         // do not update open_offset for /dev/events and stdin
         break;
       default:
