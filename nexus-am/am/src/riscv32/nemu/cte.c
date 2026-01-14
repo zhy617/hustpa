@@ -38,6 +38,7 @@ _Context* __am_irq_handle(_Context *c) {
     }
   }
   next->epc += 4;
+  printf("GPRx after irq: %d\n", next->GPRx);
   return next;
 }
 

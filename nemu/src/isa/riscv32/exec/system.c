@@ -32,6 +32,7 @@ make_EHelper(csrrw) {
     // 3. Write the value from rs1 (id_src->val) directly to the CSR.
     csr_write(id_src2->val, id_src->val);
     
+    printf("Fuckyou\n");
     // printf("cpu.sepc before = %x\n", cpu.sepc);
     // printf("pc = %x, csr addr = %x, old csr val = %x, rs1 val = %x, new csr val = %x, dest val = %x\n",
     //        decinfo.seq_pc, id_src2->val, s1, id_src->val, id_src->val, s1);
