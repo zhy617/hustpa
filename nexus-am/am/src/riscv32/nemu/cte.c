@@ -26,7 +26,7 @@ _Context* __am_irq_handle(_Context *c) {
         case -1: ev.event = _EVENT_YIELD; break;
         default: ev.event = _EVENT_SYSCALL; break;
       }
-      printf("Yield event\n"); 
+      // printf("Yield event\n"); 
       break;
       default: ev.event = _EVENT_ERROR; break;
     }
