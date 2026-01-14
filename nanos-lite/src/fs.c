@@ -17,7 +17,7 @@ typedef struct {
   WriteFn write;
 } Finfo;
 
-enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_EVENTS, FD_FB};
+enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_EVENTS, FD_FB, FD_FBSYNC};
 
 size_t invalid_read(void *buf, size_t offset, size_t len) {
   panic("should not reach here");
@@ -35,8 +35,8 @@ static Finfo file_table[] __attribute__((used)) = {
   {"stdout", -1, 0, 0, invalid_read, serial_write},
   {"stderr", -1, 0, 0, invalid_read, serial_write},
   {"/dev/events", -1, 0, 0, events_read, invalid_write},
-  // {"dev/fb", 0, 0, 0, invalid_read, fb_write},
-  // {"dev/fbsync", 0, 0, 0, invalid_read, fbsync_write},
+  {"dev/fb", 0, 0, 0, invalid_read, fb_write},
+  {"dev/fbsync", 0, 0, 0, invalid_read, fbsync_write},
 #include "files.h"
 };
 
@@ -44,6 +44,7 @@ static Finfo file_table[] __attribute__((used)) = {
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
+  file_table[FD_FB].size = screen_width() * screen_height() * 4;
 }
 
 int fs_open(const char *pathname, int flags, int mode) {

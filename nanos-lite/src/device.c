@@ -40,14 +40,21 @@ size_t events_read(void *buf, size_t offset, size_t len) {
 static char dispinfo[128] __attribute__((used)) = {};
 
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
-  return 0;
+  return snprintf(buf, len, dispinfo + offset);
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
-  return 0;
+  int x = offset / 4 % screen_width();
+  int y = offset / 4 / screen_width();
+  // make sure only need to draw one line each time
+  assert(x + len / 4 <= screen_width());
+  draw_sync();
+  draw_rect((uint32_t*)buf, x, y, len / 4, 1);
+  return len;
 }
 
 size_t fbsync_write(const void *buf, size_t offset, size_t len) {
+  draw_sync();
   return 0;
 }
 
@@ -57,4 +64,7 @@ void init_device() {
 
   // TODO: print the string to array `dispinfo` with the format
   // described in the Navy-apps convention
+  int w = screen_width();
+  int h = screen_height();
+  snprintf(dispinfo, sizeof(dispinfo), "WIDTH:%d\nHEIGHT:%d\n", w, h);
 }
