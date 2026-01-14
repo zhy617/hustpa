@@ -10,6 +10,7 @@ int main() {
     if (j == 1) {
       // printf("Hello World from Navy-apps for the %dth time!\n", i ++);
       write(1, "Hello World from Navy-apps!\n", 29);
+      i ++;
       j = 0;
     }
   }
