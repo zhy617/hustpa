@@ -192,7 +192,7 @@ int snprintf(char *out, size_t n, const char *fmt, ...) {
   int ret = vsnprintf(out, n, fmt, ap);
   // int ret = vsprintf(out, fmt, ap);
   va_end(ap);
-  printf("n: %d, ret: %d\n", n, ret);
+  // printf("n: %d, ret: %d\n", n, ret);
   return ret;
 }
 
