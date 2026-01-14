@@ -48,7 +48,7 @@ size_t fb_write(const void *buf, size_t offset, size_t len) {
   int y = offset / 4 / screen_width();
   // make sure only need to draw one line each time
   assert(x + len / 4 <= screen_width());
-  draw_sync();
+  // draw_sync();
   draw_rect((uint32_t*)buf, x, y, len / 4, 1);
   return len;
 }
