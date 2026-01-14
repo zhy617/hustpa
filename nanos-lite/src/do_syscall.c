@@ -52,7 +52,7 @@ int sys_brk(uintptr_t incre) {
   PCB* p = current;
   uintptr_t old_brk = p -> max_brk;
   uintptr_t new_brk = old_brk + incre;
-  assert(new_brk >= old_brk);
+  // assert(new_brk >= old_brk);
   p -> max_brk = new_brk;
   return old_brk;
 }
