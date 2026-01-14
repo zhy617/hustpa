@@ -1,4 +1,8 @@
 #include "fs.h"
+#include "ramdisk.h"
+
+extern size_t ramdisk_read(void *buf, size_t offset, size_t len);
+extern size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 
 typedef size_t (*ReadFn) (void *buf, size_t offset, size_t len);
 typedef size_t (*WriteFn) (const void *buf, size_t offset, size_t len);
@@ -7,6 +11,7 @@ typedef struct {
   char *name;
   size_t size;
   size_t disk_offset;
+  size_t open_offset;
   ReadFn read;
   WriteFn write;
 } Finfo;
@@ -25,9 +30,9 @@ size_t invalid_write(const void *buf, size_t offset, size_t len) {
 
 /* This is the information about all files in disk. */
 static Finfo file_table[] __attribute__((used)) = {
-  {"stdin", 0, 0, invalid_read, invalid_write},
-  {"stdout", 0, 0, invalid_read, invalid_write},
-  {"stderr", 0, 0, invalid_read, invalid_write},
+  {"stdin", 0, 0, 0, invalid_read, invalid_write},
+  {"stdout", 0, 0, 0, invalid_read, 0},
+  {"stderr", 0, 0, 0, invalid_read, 0},
 #include "files.h"
 };
 
@@ -35,4 +40,79 @@ static Finfo file_table[] __attribute__((used)) = {
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
+}
+
+int fs_open(const char *pathname, int flags, int mode) {
+  for (int i = 0; i < NR_FILES; i++) {
+    if (strcmp(pathname, file_table[i].name) == 0) {
+      return i;
+    }
+  }
+  panic("File %s not found\n", pathname);
+  return -1;
+}
+
+size_t fs_read(int fd, void *buf, size_t len) {
+  assert(fd >= 0 && fd < NR_FILES);
+  
+  Finfo *f = &file_table[fd];
+  size_t offset = f->open_offset;
+  if (offset + len > f->size) {
+    len = f->size - offset;
+  } 
+  assert(len >= 0);
+
+  if (f->read) {
+    size_t ret = f->read(buf, offset, len);
+    f->open_offset += ret;
+    return ret;
+  } else {
+    ramdisk_read(buf, f->disk_offset + offset, len);
+    f->open_offset += len;
+    return len;
+  }
+}
+
+size_t fs_write(int fd, const void *buf, size_t len) {
+  assert(fd >= 0 && fd < NR_FILES);
+
+  Finfo *f = &file_table[fd];
+  size_t offset = f->open_offset;
+  if (offset + len > f->size) {
+    len = f->size - offset;
+  }
+  assert(len >= 0);
+
+  if (f->write) {
+    size_t ret = f->write(buf, offset, len);
+    f->open_offset += ret;
+    return ret;
+  } else {
+    ramdisk_write(buf, f->disk_offset + offset, len);
+    f->open_offset += len;
+    return len;
+  }
+}
+
+size_t fs_lseek(int fd, size_t offset, int whence) {
+  assert(fd >= 0 && fd < NR_FILES);
+
+  Finfo *f = &file_table[fd];
+  size_t new_offset = 0;
+  switch (whence) {
+    case SEEK_SET: new_offset = offset; break;
+    case SEEK_CUR: new_offset = f->open_offset + offset; break;
+    case SEEK_END: new_offset = f->size + offset; break;
+    default: panic("whence = %d is invalid\n", whence);
+  }
+  assert(new_offset <= f->size);
+  f->open_offset = new_offset;
+  return f->open_offset;
+}
+
+int fs_close(int fd) {
+  assert(fd >= 0 && fd < NR_FILES);
+  Finfo *f = &file_table[fd];
+  f->open_offset = 0;
+  return 0;
 }

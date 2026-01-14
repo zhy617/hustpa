@@ -1,6 +1,7 @@
 #include "common.h"
 #include "syscall.h"
 #include "proc.h"
+#include "fs.h"
 
 int sys_yield() {
   _yield();
@@ -24,14 +25,27 @@ size_t sys_write(int fd, const void *buf, size_t len) {
   // for (size_t i = 0; i < 10; i++) {
   //   printf("buf[%d] = %c (0x%x)\n", i, ((char *)buf)[i], ((char *)buf)[i]);
   // }
-  if (fd == 1 || fd == 2) {
-    for (size_t i = 0; i < len; i++) {
-      _putc(((char *)buf)[i]);
-    }
-    return len; // Return number of bytes written
-  } else {
-    return -1; // Unsupported fd
-  }
+  // if (fd == 1 || fd == 2) {
+  //   for (size_t i = 0; i < len; i++) {
+  //     _putc(((char *)buf)[i]);
+  //   }
+  //   return len; // Return number of bytes written
+  // } else {
+  //   return -1; // Unsupported fd
+  // }
+  return fs_write(fd, buf, len);
+}
+
+size_t sys_read(int fd, void *buf, size_t len) {
+  return fs_read(fd, buf, len);
+}
+
+int sys_close(int fd) {
+  return fs_close(fd);
+}
+
+int sys_open(const char *pathname, int flags, int mode) {
+  return fs_open(pathname, flags, mode);
 }
 
 int sys_brk(uintptr_t incre) {
@@ -59,9 +73,21 @@ _Context* do_syscall(_Context *c) {
       // printf("SYS_exit called with status %d\n", a[1]);
       c->GPRx = sys_exit(a[1]);
       break;
+    case SYS_read:
+      c->GPRx = sys_read(a[1], (void *)a[2], a[3]);
+      return c;
+      break;
     case SYS_write:
       // printf("a2 = %x, a3 = %d\n", a[2], a[3]);
       c->GPRx = sys_write(a[1], (const void *)a[2], a[3]);
+      return c;
+      break;
+    case SYS_open:
+      c->GPRx = sys_open((const char *)a[1], a[2], a[3]);
+      return c;
+      break;
+    case SYS_close:
+      c->GPRx = sys_close(a[1]);
       return c;
       break;
     case SYS_brk:
