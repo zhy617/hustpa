@@ -83,11 +83,12 @@ size_t fs_write(int fd, const void *buf, size_t len) {
 
   Finfo *f = &file_table[fd];
   size_t offset = f->open_offset;
+  printf("fuckyou!!\n");
   if (offset + len > f->size) {
     len = f->size - offset;
   }
   assert(len >= 0);
-
+  printf("fufu!!!\n");
   if (f->write) {
     size_t ret = f->write(buf, offset, len);
     f->open_offset += ret;
