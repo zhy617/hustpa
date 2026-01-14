@@ -87,6 +87,7 @@ _Context *_ucontext(_AddressSpace *as, _Area ustack, _Area kstack,
                                  void *entry, void *args);
 int screen_width();
 int screen_height();
+void draw_sync();
 
 
 // ================= Multi-Processor Extension (MPE) =================
