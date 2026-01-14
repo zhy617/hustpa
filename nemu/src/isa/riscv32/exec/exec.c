@@ -233,7 +233,7 @@ static OpcodeEntry system_table [8] = {
 };
 
 static make_EHelper(system) {
-  printf("system funct3 = %d\n", decinfo.isa.instr.funct3);
+  // printf("system funct3 = %d\n", decinfo.isa.instr.funct3);
   idex(pc, &system_table[decinfo.isa.instr.funct3]);
 }
 
