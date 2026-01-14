@@ -189,6 +189,7 @@ int snprintf(char *out, size_t n, const char *fmt, ...) {
   va_list ap;
   va_start(ap, fmt);
   // int ret = vsnprintf(out, n, fmt, ap);
+  printf("n = %d\n", n);
   int ret = vsprintf(out, fmt, ap);
   va_end(ap);
   return ret;
