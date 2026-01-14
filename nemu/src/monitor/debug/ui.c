@@ -105,7 +105,12 @@ static int cmd_x(char *args) {
     vaddr_t current_addr = start_addr + i * 4;
     // 使用 vaddr_read 读取4字节内存
     uint32_t data = vaddr_read(current_addr, 4);
-    printf("0x%08x: 0x%08x %u %c\n", current_addr, data, data, data);
+    printf("0x%08x: 0x%08x %u", current_addr, data, data);
+    printf("%c%c%c%c\n",
+           (data & 0x000000ff) ? (char)(data & 0x000000ff) : '.',
+           (data & 0x0000ff00) ? (char)((data >> 8) & 0x000000ff) : '.',
+           (data & 0x00ff0000) ? (char)((data >> 16) & 0x000000ff) : '.',
+           (data & 0xff000000) ? (char)((data >> 24) & 0x000000ff) : '.');
   }
 
   return 0;
