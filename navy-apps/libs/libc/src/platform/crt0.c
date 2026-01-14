@@ -10,7 +10,9 @@ void _start(int argc, char *argv[], char *envp[]) {
   char *env[] = {NULL};
   environ = env;
   int ret = main(argc, argv, envp);
-  write(1, &ret, sizeof(ret)); // debug
+  // write(1, &ret, sizeof(ret)); // debug
+  write(1, "Exit code: ", 11); // debug
+  // printf("Program exited with return value %d\n", ret);
   exit(ret);
   assert(0);
 }
