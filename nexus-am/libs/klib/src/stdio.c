@@ -190,7 +190,7 @@ int snprintf(char *out, size_t n, const char *fmt, ...) {
   va_start(ap, fmt);
   int ret = vsnprintf(out, n, fmt, ap);
   va_end(ap);
-  return 0;
+  return ret;
 }
 
 #endif
