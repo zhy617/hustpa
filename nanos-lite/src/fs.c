@@ -34,7 +34,7 @@ static Finfo file_table[] __attribute__((used)) = {
   {"stdin", 0, 0, 0, invalid_read, invalid_write},
   {"stdout", -1, 0, 0, invalid_read, serial_write},
   {"stderr", -1, 0, 0, invalid_read, serial_write},
-  {"/dev/events", 4096, 0, 0, events_read, invalid_write},
+  {"/dev/events", -1, 0, 0, events_read, invalid_write},
   // {"dev/fb", 0, 0, 0, invalid_read, fb_write},
   // {"dev/fbsync", 0, 0, 0, invalid_read, fbsync_write},
 #include "files.h"
@@ -70,9 +70,9 @@ size_t fs_read(int fd, void *buf, size_t len) {
   if (f->read) {
     size_t ret = f->read(buf, offset, len);
     switch (fd) {
-      // case FD_EVENTS:
+      case FD_EVENTS:
         // do not update open_offset for /dev/events and stdin
-        // break;
+        break;
       default:
         f->open_offset += ret;
     }
