@@ -60,6 +60,7 @@ typedef struct _AddressSpace {
 
 extern _Area _heap;
 void _putc(char ch);
+int printf(const char *fmt, ...);
 void _halt(int code) __attribute__((__noreturn__));
 
 // ======================= I/O Extension (IOE) =======================
