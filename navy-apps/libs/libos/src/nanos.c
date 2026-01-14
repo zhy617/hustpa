@@ -72,8 +72,8 @@ int _read(int fd, void *buf, size_t count) {
 }
 
 int _close(int fd) {
-  char *s = "Closing file descriptor not supported yet.\n";
-  _write(2, s, 42);
+  // char *s = "Closing file descriptor not supported yet.\n";
+  // _write(2, s, 42);
   _exit(SYS_close);
   return 0;
 }
