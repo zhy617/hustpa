@@ -76,23 +76,23 @@ size_t fs_read(int fd, void *buf, size_t len) {
 }
 
 size_t fs_write(int fd, const void *buf, size_t len) {
-  printf("fs_write: fd=%d, buf=%x, len=%d\n", fd, buf, len);
-  printf("%s\n", file_table[fd].name);
-  printf("%s\n", buf);
+  // printf("fs_write: fd=%d, buf=%x, len=%d\n", fd, buf, len);
+  // printf("%s\n", file_table[fd].name);
+  // printf("%s\n", buf);
   assert(fd >= 0 && fd < NR_FILES);
 
   Finfo *f = &file_table[fd];
   size_t offset = f->open_offset;
-  printf("fuckyou!!\n");
+  // printf("fuckyou!!\n");
   if (offset + len > f->size) {
     len = f->size - offset;
   }
   assert(len >= 0);
-  printf("fufu!!!\n");
+  // printf("fufu!!!\n");
   if (f->write) {
     size_t ret = f->write(buf, offset, len);
     f->open_offset += ret;
-    printf("fufufu!!!\n");
+    // printf("fufufu!!!\n");
     return ret;
   } else {
     ramdisk_write(buf, f->disk_offset + offset, len);
