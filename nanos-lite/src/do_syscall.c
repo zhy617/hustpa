@@ -46,6 +46,7 @@ _Context* do_syscall(_Context *c) {
       return c;
       break;
     case SYS_exit:
+      printf("SYS_exit called with status %d\n", a[1]);
       c->GPRx = sys_exit(a[1]);
       break;
     case SYS_write:
