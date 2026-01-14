@@ -77,6 +77,8 @@ size_t fs_read(int fd, void *buf, size_t len) {
 
 size_t fs_write(int fd, const void *buf, size_t len) {
   printf("fs_write: fd=%d, buf=%x, len=%d\n", fd, buf, len);
+  printf("%s\n", file_table[fd].name);
+  printf("%s\n", buf);
   assert(fd >= 0 && fd < NR_FILES);
 
   Finfo *f = &file_table[fd];
