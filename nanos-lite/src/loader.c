@@ -1,6 +1,7 @@
 #include "proc.h"
 #include <elf.h>
 #include "ramdisk.h"
+#include "fs.h"
 
 #ifdef __ISA_AM_NATIVE__
 # define Elf_Ehdr Elf64_Ehdr
@@ -16,7 +17,10 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   uintptr_t program_end = 0;
 
   Elf_Ehdr ehdr;
-  ramdisk_read(&ehdr, 0, sizeof(Elf_Ehdr));
+  // ramdisk_read(&ehdr, 0, sizeof(Elf_Ehdr));
+  int fd = fs_open(filename, 0, 0);
+  fs_read(fd, &ehdr, sizeof(Elf_Ehdr));
+
   // check magic number
   assert(*(uint32_t *)ehdr.e_ident == 0x464c457f);
   assert(ehdr.e_ident[EI_CLASS] == ELFCLASS32);
@@ -24,10 +28,13 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Phdr phdr;
   uint32_t ph_offset = ehdr.e_phoff;
   for (int i = 0; i < ehdr.e_phnum; i++) {
-    ramdisk_read(&phdr, ph_offset + i * sizeof(Elf_Phdr), sizeof(Elf_Phdr));
+    // ramdisk_read(&phdr, ph_offset + i * sizeof(Elf_Phdr), sizeof(Elf_Phdr));
+    fs_lseek(fd, ph_offset + i * sizeof(Elf_Phdr), SEEK_SET);
+    fs_read(fd, &phdr, sizeof(Elf_Phdr));
     if (phdr.p_type == PT_LOAD) {
       // load segment
-      ramdisk_read((void *)phdr.p_vaddr, phdr.p_offset, phdr.p_filesz);
+      fs_lseek(fd, phdr.p_offset, SEEK_SET);
+      fs_read(fd, (void *)phdr.p_vaddr, phdr.p_filesz);
       // zero the rest bytes
       memset((void *)(phdr.p_vaddr + phdr.p_filesz), 0, phdr.p_memsz - phdr.p_filesz);
       
