@@ -70,9 +70,9 @@ size_t fs_read(int fd, void *buf, size_t len) {
   if (f->read) {
     size_t ret = f->read(buf, offset, len);
     switch (fd) {
-      case FD_EVENTS:
+      // case FD_EVENTS:
         // do not update open_offset for /dev/events and stdin
-        break;
+        // break;
       default:
         f->open_offset += ret;
     }
