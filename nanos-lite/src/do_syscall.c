@@ -16,6 +16,7 @@ size_t sys_write(int fd, const void *buf, size_t len) {
   // For simplicity, we only handle fd = 1 (stdout) or fd = 2 (stderr)
   printf("sys_write called with fd=%d, len=%d\n", fd, len);
   printf("buf addr = %x\n", buf);
+  // addr = 0x830069c7
   if (fd == 1 || fd == 2) {
     for (size_t i = 0; i < len; i++) {
       _putc(((char *)buf)[i]);
