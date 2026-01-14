@@ -45,9 +45,9 @@ make_EHelper(ecall) {
   // Trigger an environment call exception
   // make sure not sret
   assert((decinfo.isa.instr.val & 0xfff) == 0x73);
-  printf("ecall at pc = %x\n", decinfo.seq_pc);
-  printf("cpu.pc before = %x\n", cpu.pc);
-  raise_intr(8, decinfo.seq_pc); // 8 is the exception code for ecall from U-mode
+  // printf("ecall at pc = %x\n", decinfo.seq_pc);
+  // printf("cpu.pc before = %x\n", cpu.pc);
+  raise_intr(8, cpu.pc); // 8 is the exception code for ecall from U-mode
 
   print_asm("ecall");
 }
