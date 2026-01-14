@@ -15,6 +15,6 @@ void _start(int argc, char *argv[], char *envp[]) {
   // write(1, (char *)&ret, sizeof(ret)); // debug
   // write(1, "\n", 1); // debug
   // printf("Program exited with return value %d\n", ret);
-  _exit(ret);
+  exit(ret);
   assert(0);
 }
