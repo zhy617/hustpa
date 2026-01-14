@@ -92,6 +92,7 @@ size_t fs_write(int fd, const void *buf, size_t len) {
   if (f->write) {
     size_t ret = f->write(buf, offset, len);
     f->open_offset += ret;
+    printf("fufufu!!!\n");
     return ret;
   } else {
     ramdisk_write(buf, f->disk_offset + offset, len);
