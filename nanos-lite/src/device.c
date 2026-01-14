@@ -23,9 +23,11 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   int key = read_key();
   // printf("key: 0x%x\n", key);
   // printf("len: %d\n", len);
+  printf("buf: %x\n", buf);
   bool is_keydown = key & 0x8000? true : false;
   key = key & 0x7fff;
   int n = 0;
+
   if (key == _KEY_NONE) {
     uint32_t time = uptime();
     n = snprintf(buf, len, "t %d\n", time);
