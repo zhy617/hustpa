@@ -12,6 +12,9 @@
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
   // TODO();
+
+  uintptr_t program_end = 0;
+
   Elf_Ehdr ehdr;
   ramdisk_read(&ehdr, 0, sizeof(Elf_Ehdr));
   // check magic number
@@ -27,8 +30,14 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       ramdisk_read((void *)phdr.p_vaddr, phdr.p_offset, phdr.p_filesz);
       // zero the rest bytes
       memset((void *)(phdr.p_vaddr + phdr.p_filesz), 0, phdr.p_memsz - phdr.p_filesz);
+      
+      uintptr_t current_end = phdr.p_vaddr + phdr.p_memsz;
+      if (current_end > program_end) {
+        program_end = current_end;
+      }
     }
   }
+  pcb -> max_brk = program_end;
 
   return ehdr.e_entry;
 }

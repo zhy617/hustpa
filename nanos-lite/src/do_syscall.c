@@ -1,5 +1,6 @@
 #include "common.h"
 #include "syscall.h"
+#include "proc.h"
 
 int sys_yield() {
   _yield();
@@ -33,6 +34,15 @@ size_t sys_write(int fd, const void *buf, size_t len) {
   }
 }
 
+int sys_brk(uintptr_t incre) {
+  PCB* p = current;
+  uintptr_t old_brk = p -> max_brk;
+  uintptr_t new_brk = old_brk + incre;
+  assert(new_brk >= old_brk);
+  p -> max_brk = new_brk;
+  return old_brk;
+}
+
 _Context* do_syscall(_Context *c) {
   uintptr_t a[4];
   a[0] = c->GPR1;
@@ -52,6 +62,10 @@ _Context* do_syscall(_Context *c) {
     case SYS_write:
       // printf("a2 = %x, a3 = %d\n", a[2], a[3]);
       c->GPRx = sys_write(a[1], (const void *)a[2], a[3]);
+      return c;
+      break;
+    case SYS_brk:
+      c->GPRx = sys_brk(a[1]);
       return c;
       break;
     default: panic("Unhandled syscall ID = %d", a[0]);
