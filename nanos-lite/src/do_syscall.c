@@ -18,8 +18,9 @@ size_t sys_write(int fd, const void *buf, size_t len) {
   printf("buf addr = %x\n", buf);
   // addr = 0x830069c7
   // addr = 0x83005228
+  // addr = 0x83005238
   // w $pc==0x80100510
-  for (size_t i = 0; i < 100; i++) {
+  for (size_t i = 0; i < 10; i++) {
     printf("buf[%d] = %c (0x%x)\n", i, ((char *)buf)[i], ((char *)buf)[i]);
   }
   if (fd == 1 || fd == 2) {
