@@ -53,7 +53,7 @@ printf (const char *__restrict fmt, ...)
 
   _REENT_SMALL_CHECK_INIT (ptr);
   va_start (ap, fmt);
-  write(1, fmt, 5); // debug
+  write(1, fmt, 20); // debug
   ret = _vfprintf_r (ptr, _stdout_r (ptr), fmt, ap);
   va_end (ap);
   return ret;
