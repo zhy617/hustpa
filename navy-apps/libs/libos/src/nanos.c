@@ -68,9 +68,9 @@ void *_sbrk(intptr_t increment) {
 
 int _read(int fd, void *buf, size_t count) {
   // printf("fd: %d, buf: %p, count: %d\n", fd, buf, count);
-  _write(1, buf, count);
-  _exit(SYS_read);
-  return 0;
+  return _syscall_(SYS_read, fd, (intptr_t)buf, count);
+  // _exit(SYS_read);
+  // return 0;
 }
 
 int _close(int fd) {
