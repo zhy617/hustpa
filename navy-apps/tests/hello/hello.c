@@ -16,5 +16,5 @@ int main() {
       j = 0;
     }
   }
-  return 0;
+  return 2;
 }
