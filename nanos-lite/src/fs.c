@@ -17,7 +17,7 @@ typedef struct {
   WriteFn write;
 } Finfo;
 
-enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_FB};
+enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_EVENTS, FD_FB};
 
 size_t invalid_read(void *buf, size_t offset, size_t len) {
   panic("should not reach here");
@@ -34,7 +34,7 @@ static Finfo file_table[] __attribute__((used)) = {
   {"stdin", 0, 0, 0, invalid_read, invalid_write},
   {"stdout", -1, 0, 0, invalid_read, serial_write},
   {"stderr", -1, 0, 0, invalid_read, serial_write},
-  {"/dev/events", -1, 0, 0, events_read, invalid_write},
+  {"/dev/events", 4096, 0, 0, events_read, invalid_write},
   // {"dev/fb", 0, 0, 0, invalid_read, fb_write},
   // {"dev/fbsync", 0, 0, 0, invalid_read, fbsync_write},
 #include "files.h"
@@ -69,7 +69,13 @@ size_t fs_read(int fd, void *buf, size_t len) {
 
   if (f->read) {
     size_t ret = f->read(buf, offset, len);
-    f->open_offset += ret;
+    switch (fd) {
+      case FD_EVENTS:
+        // do not update open_offset for /dev/events and stdin
+        break;
+      default:
+        f->open_offset += ret;
+    }
     return ret;
   } else {
     ramdisk_read(buf, f->disk_offset + offset, len);
@@ -94,7 +100,14 @@ size_t fs_write(int fd, const void *buf, size_t len) {
   // printf("fufu!!!\n");
   if (f->write) {
     size_t ret = f->write(buf, offset, len);
-    f->open_offset += ret;
+    switch (fd) {
+      case FD_STDOUT:
+      case FD_STDERR:
+        // do not update open_offset for stdout and stderr
+        break;
+      default:
+        f->open_offset += ret;
+    }
     // printf("fufufu!!!\n");
     return ret;
   } else {
