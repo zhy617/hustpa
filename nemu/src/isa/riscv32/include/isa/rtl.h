@@ -3,7 +3,7 @@
 
 #include "rtl/rtl.h"
 
-inline void rtl_lr(rtlreg_t* dest, int r, int width) {
+void rtl_lr(rtlreg_t* dest, int r, int width) {
   if (r != 0) { rtl_mv(dest, &reg_l(r)); }
   else { rtl_li(dest, 0); }
 }
