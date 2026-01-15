@@ -13,9 +13,9 @@ int sys_exit(int status) {
   printf("Program exited with status %d\n", status);
   if (status != 0) _halt(status);
   else {
-    _halt(0);
-    // fs_close(current -> fd);
-    // naive_uload(current, "/bin/init");
+    // _halt(0);
+    fs_close(current -> fd);
+    naive_uload(current, "/bin/init");
   }
   return 0; 
 }
