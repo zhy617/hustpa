@@ -26,4 +26,4 @@
 #define TODO() panic("please implement me")
 
 #endif
-volatile  int fuckyou;
+// volatile static int fuckyou=0;

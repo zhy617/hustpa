@@ -34,4 +34,4 @@ typedef uint16_t ioaddr_t;
 
 #endif
 
-volatile  int fuckyou;
+// volatile  int fuckyou;
