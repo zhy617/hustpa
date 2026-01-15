@@ -57,6 +57,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 
   Elf_Ehdr ehdr;
   // ramdisk_read(&ehdr, 0, sizeof(Elf_Ehdr));
+  printf("loader: filename=%s\n", filename);
   int fd = fs_open(filename, 0, 0);
   fs_read(fd, &ehdr, sizeof(Elf_Ehdr));
 
