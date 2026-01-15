@@ -12,7 +12,10 @@ int sys_yield() {
 int sys_exit(int status) {
   printf("Program exited with status %d\n", status);
   if (status != 0) _halt(status);
-  else naive_uload(current, "/bin/init");
+  else {
+    fs_close(current -> fd);
+    naive_uload(current, "/bin/init");
+  }
   return 0; 
 }
 
@@ -62,6 +65,7 @@ int sys_brk(uintptr_t incre) {
 int sys_execve(const char *filename, char *const argv[], char *const envp[]) {
   // Not implemented yet
   // return -1;
+  fs_close(current -> fd);
   naive_uload(current, filename);
   return 0;
 }
