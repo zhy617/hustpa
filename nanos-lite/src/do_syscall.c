@@ -83,7 +83,6 @@ _Context* do_syscall(_Context *c) {
       return c;
       break;
     case SYS_exit:
-      // printf("SYS_exit called with status %d\n", a[1]);
       c->GPRx = sys_exit(a[1]);
       break;
     case SYS_read:
@@ -91,7 +90,6 @@ _Context* do_syscall(_Context *c) {
       return c;
       break;
     case SYS_write:
-      // printf("a2 = %x, a3 = %d\n", a[2], a[3]);
       c->GPRx = sys_write(a[1], (const void *)a[2], a[3]);
       return c;
       break;
