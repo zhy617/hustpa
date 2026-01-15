@@ -2,6 +2,7 @@
 #include "syscall.h"
 #include "proc.h"
 #include "fs.h"
+#include "loader.h"
 
 int sys_yield() {
   _yield();
@@ -10,7 +11,8 @@ int sys_yield() {
 
 int sys_exit(int status) {
   printf("Program exited with status %d\n", status);
-  _halt(status);
+  if (status != 0) _halt(status);
+  else naive_uload(current, "/bin/init");
   return 0; 
 }
 
@@ -57,6 +59,13 @@ int sys_brk(uintptr_t incre) {
   return old_brk;
 }
 
+int sys_execve(const char *filename, char *const argv[], char *const envp[]) {
+  // Not implemented yet
+  // return -1;
+  naive_uload(current, filename);
+  return 0;
+}
+
 _Context* do_syscall(_Context *c) {
   uintptr_t a[4];
   a[0] = c->GPR1;
@@ -96,6 +105,11 @@ _Context* do_syscall(_Context *c) {
       break;
     case SYS_brk:
       c->GPRx = sys_brk(a[1]);
+      return c;
+      break;
+    case SYS_execve:
+      naive_uload(current, (const char *)a[1]);
+      c->GPRx = 0;
       return c;
       break;
     default: panic("Unhandled syscall ID = %d", a[0]);
