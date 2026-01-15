@@ -21,5 +21,8 @@ setup:
 password: 
 	STUID=$(STUID) STUNAME=$(STUNAME) bash -c "$$(curl -s https://course.cunok.cn:52443/pa/scripts/password.sh)"
 
+count:
+	@find nemu -name "*.[ch]" | xargs cat | grep -v "^$$" | wc -l
 
-.PHONY: default clean submit
+.PHONY: default clean submit count
+
